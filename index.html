@@ -43,12 +43,12 @@
     
     #lp{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 80%,rgba(100,255,218,.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,180,216,.15) 0%,transparent 50%),linear-gradient(-45deg,var(--bg-deep),#112240,#0d47a1,#1565c0,var(--bg-deep));background-size:400% 400%;animation:gradientShift 20s ease infinite;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;overflow:hidden}
     @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-    .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.4;animation:orbFloat 20s ease-in-out infinite;pointer-events:none}
-    .orb:nth-child(1){width:300px;height:300px;background:var(--primary);left:-100px;top:20%}
-    .orb:nth-child(2){width:200px;height:200px;background:var(--accent);right:-50px;top:40%;animation-delay:-5s}
-    .orb:nth-child(3){width:250px;height:250px;background:var(--accent-dark);left:30%;bottom:-100px;animation-delay:-10s}
+    .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.4;animation:orbFloat 20s ease-in-out infinite;pointer-events:none;z-index:1}
+    .orb:nth-of-type(1){width:300px;height:300px;background:var(--primary);left:-100px;top:20%}
+    .orb:nth-of-type(2){width:200px;height:200px;background:var(--accent);right:-50px;top:40%;animation-delay:-5s}
+    .orb:nth-of-type(3){width:250px;height:250px;background:var(--accent-dark);left:30%;bottom:-100px;animation-delay:-10s}
     @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(.9)}}
-    .bubble-lp{position:absolute;bottom:-100px;background:rgba(100,255,218,.12);border-radius:50%;animation:floatUp linear infinite;pointer-events:none;box-shadow:0 0 20px rgba(100,255,218,.2)}
+    .bubble-lp{position:absolute;bottom:-100px;background:rgba(100,255,218,.12);border-radius:50%;animation:floatUp linear infinite;pointer-events:none;box-shadow:0 0 20px rgba(100,255,218,.2);opacity:1;z-index:2}
     @keyframes floatUp{0%{transform:translateY(0) scale(0);opacity:0}10%{opacity:.6}100%{transform:translateY(-120vh) scale(1.5);opacity:0}}
     .lt{font-size:clamp(3.5rem,12vw,7rem);font-weight:900;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-dark),var(--primary));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-3px;animation:textGradient 5s ease infinite;margin-bottom:.5rem;filter:drop-shadow(0 0 30px rgba(100,255,218,.3));text-align:center}
     @keyframes textGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -599,26 +599,13 @@ let gamesOnline = true;
 let checkInProgress = false;
 
 
-async function checkGameStatus() {
+async function checkGameStatus(showToast=true) {
     if (checkInProgress) return;
     checkInProgress = true;
-    
-    const statusEl = document.getElementById('maint-status');
-    const maintPage = document.getElementById('maintenance-page');
-    
-    if (statusEl) {
-        statusEl.textContent = 'Checking game servers...';
-        statusEl.className = 'maint-status checking';
-    }
-    
-    // Show checking state if maintenance page is visible
-    if (maintPage && maintPage.classList.contains('active')) {
-        // Already showing maintenance, just update status
-    }
+    setStatusDisplays('Checking game servers...', 'checking');
     
     try {
         // Try to fetch a small test resource from one of the game CDNs
-        // Using a HEAD request with no-cors to check connectivity
         const testUrls = [
             'https://byod.geeked.wtf/favicon.ico',
             'https://cdn.jsdelivr.net/gh/gn-math/covers@main/1.png',
@@ -632,8 +619,8 @@ async function checkGameStatus() {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 5000);
                 
-                const response = await fetch(url, { 
-                    method: 'HEAD', 
+                await fetch(url, { 
+                    method: 'GET', 
                     mode: 'no-cors',
                     signal: controller.signal,
                     cache: 'no-cache'
@@ -653,7 +640,7 @@ async function checkGameStatus() {
             showMaintenance();
         } else {
             hideMaintenance();
-            showErrorToast('Games are online! ✓');
+            if (showToast) showErrorToast('Games are online! ✓');
         }
         
     } catch (e) {
@@ -668,21 +655,16 @@ async function checkGameStatus() {
 
 function showMaintenance() {
     const maintPage = document.getElementById('maintenance-page');
-    const statusEl = document.getElementById('maint-status');
-    
-    if (maintPage) maintPage.classList.remove('active');
-    if (statusEl) {
-        statusEl.textContent = 'Status: Could not verify';
-        statusEl.className = 'maint-status checking';
-    }
-    
-    showErrorToast('Could not verify game servers');
+    if (maintPage) maintPage.classList.add('active');
+    setStatusDisplays('Games are currently down', 'offline');
+    showErrorToast('Games are currently down');
 }
 
 
 function hideMaintenance() {
     const maintPage = document.getElementById('maintenance-page');
     if (maintPage) maintPage.classList.remove('active');
+    setStatusDisplays('Games are online ✓', 'online');
 }
 
 
@@ -692,6 +674,14 @@ function showErrorToast(msg) {
         toast.textContent = msg;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+}
+
+function setStatusDisplays(text, state) {
+    const statusEl = document.getElementById('maint-status');
+    if (statusEl) {
+        statusEl.textContent = text;
+        statusEl.className = `maint-status ${state}`;
     }
 }
 
@@ -782,6 +772,8 @@ window.onload=()=>{
   document.addEventListener('mousemove',handleTrailMove,{passive:true});
   window.addEventListener('mousemove',handleTrailMove,{passive:true});
   window.addEventListener('pointermove',handleTrailMove,{passive:true});
+  document.getElementById('lp').addEventListener('mousemove',handleTrailMove,{passive:true});
+  document.getElementById('lp').addEventListener('pointermove',handleTrailMove,{passive:true});
   document.addEventListener('click',handleFishClick);
   window.addEventListener('resize',()=>{if(fishCanvas){fishCanvas.width=window.innerWidth;fishCanvas.height=window.innerHeight;}});
   loadSettings();
@@ -789,7 +781,8 @@ window.onload=()=>{
   // Initialize maintenance page particles
   initMaintParticles();
   
-  // Game status auto-check disabled to avoid blocking launches
+  checkGameStatus(true);
+  setInterval(()=>checkGameStatus(false),300000);
   
   document.querySelectorAll('button').forEach(btn=>{btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.setProperty('--x',((e.clientX-r.left)/r.width)*100+'%');btn.style.setProperty('--y',((e.clientY-r.top)/r.height)*100+'%');});});
 };
@@ -865,8 +858,8 @@ function initHomepageTest(){
   s.onload=start;
   document.body.appendChild(s);
 }
-function enterHub(){playSound('open');document.getElementById('lp').style.display='none';document.getElementById('main-content').style.display='block';trailEnabled=true;ST.set('trailEnabled','true');if(fishCanvas)fishCanvas.style.display='block';if(trailType==='fish'&&trailEnabled)initFish();initHomepageTest();}
-function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';if(fishCanvas)fishCanvas.style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+function enterHub(){playSound('open');document.getElementById('lp').style.display='none';document.getElementById('main-content').style.display='block';trailEnabled=true;ST.set('trailEnabled','true');lastTrailX=-9999;lastTrailY=-9999;if(fishCanvas)fishCanvas.style.display='block';if(trailType==='fish'&&trailEnabled)initFish();initHomepageTest();}
+function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';lastTrailX=-9999;lastTrailY=-9999;if(trailType==='fish'&&trailEnabled){if(!fishCanvas)initFish();else fishCanvas.style.display='block';}else if(fishCanvas)fishCanvas.style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
 
 
 /* CLOCK */
@@ -1000,6 +993,9 @@ function spawnTrail(x,y){
   el.style.position='fixed';
   el.style.pointerEvents='none';
   el.style.zIndex='99998';
+  el.style.display='flex';
+  el.style.alignItems='center';
+  el.style.justifyContent='center';
   switch(trailType){
     case 'bubble':{const sz=Math.random()*14+7;const hueShift=trailHue+(Math.random()*40-20);const bc=`hsl(${hueShift},${trailSat}%,${trailLit}%)`;el.style.left=(x-sz/2)+'px';el.style.top=(y-sz/2)+'px';el.style.width=sz+'px';el.style.height=sz+'px';el.style.borderRadius='50%';el.style.background=`radial-gradient(circle at 35% 35%,${cLight},${bc})`;el.style.boxShadow=`0 0 ${sz}px ${bc},0 0 ${sz*2}px rgba(${rgb},.3)`;document.body.appendChild(el);void el.offsetWidth;el.style.animation='trailBubble 1.3s ease-out forwards';break;}
     case 'glow':{const sz=Math.random()*18+10;el.style.left=(x-sz)+'px';el.style.top=(y-sz)+'px';el.style.width=(sz*2)+'px';el.style.height=(sz*2)+'px';el.style.borderRadius='50%';el.style.background=`radial-gradient(circle,${cLight} 0%,${c} 40%,transparent 70%)`;el.style.boxShadow=`0 0 ${sz*1.5}px ${c},0 0 ${sz*3}px rgba(${rgb},.4)`;document.body.appendChild(el);void el.offsetWidth;el.style.animation='trailGlow 1.4s ease-out forwards';break;}
