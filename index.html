@@ -233,7 +233,7 @@
             <p class="maint-submessage">Unable to connect to game servers. Please try again later or check out Media.</p>
             <div class="maint-btn-row">
                 <button class="maint-btn maint-btn-retry" onclick="checkGameStatus()">🔄 Retry Connection</button>
-                <button class="maint-btn maint-btn-media" onclick="openCinemaOS()">🎬 Media</button>
+                <button class="maint-btn maint-btn-media" onclick="openMedia1()">🎬 Media</button>
                 <button class="maint-btn maint-btn-suggest" onclick="openSuggestions()">📋 Suggestions</button>
             </div>
         </div>
@@ -281,10 +281,9 @@
         <div class="br">
           <button class="b1" onclick="enterHub()">Continue →</button>
           <button class="b2" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-          <button class="b3" onclick="openCinemaOS()">🎬 Media</button>
+          <button class="b3" onclick="openMedia1()">🎬 Media</button>
         </div>
         <div class="brs">
-          <button class="bs b4" onclick="openProxy()">🌐 Proxy</button>
           <button class="bs b6" onclick="openUpdates()">📢 Updates</button>
           <button class="bs b7" onclick="openSuggestions()">📋 Suggestions</button>
         </div>
@@ -879,6 +878,33 @@ function openLandingInAboutBlank(){
   w.document.open();
   w.document.write(html);
   w.document.close();
+}
+function openUrlInAboutBlank(url,title='New Tab'){
+  const w=window.open('about:blank','_blank');
+  if(!w)return;
+  const safeUrl=String(url).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  const safeTitle=String(title).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  w.document.open();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${safeTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:Segoe UI,system-ui,sans-serif}.tb{height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.tb button{border:none;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.newtab{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}iframe{width:100%;height:calc(100% - 54px);border:none;background:#000}</style></head><body><div class="tb"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back</button><div class="ttl">${safeTitle}</div><div class="acts"><button class="newtab" onclick="window.open('${safeUrl}','_blank')">↗ New Tab</button><button class="close" onclick="window.close()">✕ Close</button></div></div><iframe src="${safeUrl}" allowfullscreen allow="storage-access *; autoplay; fullscreen"></iframe></body></html>`);
+  w.document.close();
+}
+function openMedia1(){
+  const w=window.open('about:blank','_blank');
+  if(!w)return;
+  const html='<!DOCTYPE html>'+document.documentElement.outerHTML;
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+  const openMedia=()=>{
+    try{
+      if(typeof w.openCinemaOS==='function'){
+        w.openCinemaOS();
+        return;
+      }
+    }catch(e){}
+    setTimeout(openMedia,150);
+  };
+  openMedia();
 }
 function toggleTimerVisibility(){const t=document.getElementById('playtimer');t.classList.toggle('visible');ST.set('timerVisible',t.classList.contains('visible'));}
 
