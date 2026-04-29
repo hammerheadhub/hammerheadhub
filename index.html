@@ -221,6 +221,21 @@
     <base target="_self">
 </head>
 <body>
+<script>
+(function(){
+  const block=e=>{e.preventDefault();e.stopPropagation();return false;};
+  document.addEventListener('contextmenu',block,true);
+  document.addEventListener('dragstart',block,true);
+  document.addEventListener('keydown',function(e){
+    const k=(e.key||'').toLowerCase();
+    if(k==='f12'||(e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(k))||(e.ctrlKey&&['u','s'].includes(k))){
+      block(e);
+      alert('Code is protected.');
+    }
+  },true);
+  setInterval(()=>{try{console.clear();}catch(e){}},1200);
+})();
+</script>
 
 
     <!-- Maintenance Page Overlay -->
