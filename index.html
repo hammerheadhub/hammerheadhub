@@ -71,9 +71,11 @@
     .b6:hover{transform:translateY(-3px)}
     .b7{background:linear-gradient(135deg,#1a7a1a,#2ecc2e);border:2px solid rgba(100,255,100,.5)}
     .b7:hover{transform:translateY(-3px);color:var(--bg-deep)}
-    .cloak-btn{position:absolute;top:20px;right:20px;background:linear-gradient(135deg,#000,#111);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+    .cloak-btn{position:fixed;top:20px;left:20px;background:linear-gradient(135deg,#000,#111);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;z-index:100003;box-shadow:0 10px 30px rgba(0,0,0,.45)}
     .cloak-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.55)}
     .cloak-btn small{font-size:.72rem;opacity:.75;letter-spacing:.04em;text-transform:lowercase}
+
+    body.cloaked-window .cloak-btn,body.cloaked-window #global-cloak-btn{display:none!important}
     .con{width:100%;max-width:1440px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;display:none;animation:fadeIn .8s var(--ease-out-expo)}
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     header{text-align:center;margin-bottom:40px}
@@ -168,7 +170,7 @@
     .color-preview-big{width:100%;height:40px;border-radius:10px;border:2px solid var(--border);margin:10px 0;box-shadow:0 4px 15px rgba(0,0,0,.3);transition:background .2s}
     .count-slider{width:100%;height:8px;border-radius:4px;background:linear-gradient(to right,rgba(100,255,218,.3),var(--primary));-webkit-appearance:none;appearance:none;outline:none;cursor:pointer}
     .count-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--primary);cursor:pointer}
-    #clock-widget{position:fixed;top:24px;right:24px;background:rgba(10,25,47,.8);border:1px solid var(--border);border-radius:16px;padding:16px 24px;z-index:100;font-family:'SF Mono',monospace;backdrop-filter:blur(20px);cursor:move;box-shadow:var(--shadow-md);user-select:none}
+    #clock-widget{position:fixed;top:86px;right:24px;background:rgba(10,25,47,.8);border:1px solid var(--border);border-radius:16px;padding:16px 24px;z-index:100;font-family:'SF Mono',monospace;backdrop-filter:blur(20px);cursor:move;box-shadow:var(--shadow-md);user-select:none}
     #clock-widget:hover{border-color:rgba(100,255,218,.4);box-shadow:var(--shadow-glow)}
     #clock-widget .time{font-size:1.75rem;font-weight:700;margin-bottom:4px;color:var(--primary);text-shadow:0 0 10px rgba(100,255,218,.3)}
     #clock-widget .date{font-size:.75rem;opacity:.8;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px}
@@ -212,6 +214,27 @@
     @keyframes sakuraFly{0%{transform:translate(0,-10vh) rotate(0deg) scale(.6);opacity:0}5%{opacity:.9}95%{opacity:.7}100%{transform:translate(-120vw,110vh) rotate(1080deg) scale(.4);opacity:0}}
     .foot{text-align:center;color:var(--text-secondary);font-size:.75rem;padding:40px 0;margin-top:60px;opacity:.6}
     .foot kbd{background:rgba(100,255,218,.1);padding:4px 10px;border-radius:6px;border:1px solid var(--border);font-family:'SF Mono',monospace;color:var(--primary);font-weight:600}
+    .hub-sidebar-toggle{position:fixed;top:18px;left:18px;width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,rgba(15,23,42,.98),rgba(2,6,23,.98));color:#fff;border:1px solid rgba(100,255,218,.3);z-index:100005;display:none;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 14px 36px rgba(0,0,0,.5),0 0 22px rgba(100,255,218,.1)}
+    .hub-sidebar-toggle:hover{transform:translateY(-2px) scale(1.04);border-color:var(--primary);box-shadow:0 18px 44px rgba(0,0,0,.6),0 0 28px rgba(100,255,218,.2)}
+    .hub-sidebar{position:fixed;top:0;left:0;width:min(320px,86vw);height:100vh;max-height:100vh;overflow:auto;z-index:100004;background:linear-gradient(180deg,rgba(3,7,18,.96),rgba(10,25,47,.94));border-right:1px solid rgba(100,255,218,.28);border-top:none;border-left:none;border-bottom:none;border-radius:0 28px 28px 0;padding:84px 14px 18px;backdrop-filter:blur(26px);box-shadow:18px 0 80px rgba(0,0,0,.62),inset -1px 0 0 rgba(255,255,255,.04);display:none;transform:translateX(0);transition:transform .28s var(--ease-out-expo),opacity .28s}
+    .hub-sidebar.closed{transform:translateX(-105%);opacity:0;pointer-events:none}
+    .hub-sidebar-head{display:flex;align-items:center;justify-content:space-between;padding:0 8px 16px;margin-bottom:10px;border-bottom:1px solid rgba(100,255,218,.16)}
+    .hub-sidebar-title{font-weight:900;color:var(--primary);letter-spacing:.02em;font-size:1.15rem}
+    .hub-sidebar-x{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.04);color:#fff;border:1px solid rgba(255,255,255,.12)}
+    .hub-sidebar-item{width:100%;display:flex;align-items:center;gap:14px;text-align:left;background:rgba(255,255,255,.04);color:var(--text-primary);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:15px 14px;margin:10px 0;font-weight:800;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    .hub-sidebar-item:hover{background:rgba(100,255,218,.12);border-color:rgba(100,255,218,.38);color:#fff;transform:translateX(4px)}
+    .hub-sidebar-item .ico{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(100,255,218,.1);border:1px solid rgba(100,255,218,.18);flex:0 0 auto}
+    .hub-sidebar-item small{display:block;color:var(--text-secondary);font-weight:600;margin-top:2px}
+    .settings-reminder{position:fixed;inset:0;z-index:100006;background:rgba(0,0,0,.62);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px}
+    .settings-reminder-card{width:min(460px,100%);background:linear-gradient(180deg,rgba(15,23,42,.98),rgba(2,6,23,.98));border:1px solid rgba(100,255,218,.28);border-radius:24px;padding:26px;box-shadow:0 30px 90px rgba(0,0,0,.65);text-align:center}
+    .settings-reminder-card h2{color:var(--primary);margin-bottom:10px;font-size:1.55rem}
+    .settings-reminder-card p{color:var(--text-secondary);margin-bottom:18px}
+    .settings-reminder-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .premium-btn,.setb,.sap,.b1,.b2,.b3,.bs,.maint-btn{box-shadow:0 12px 32px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.12);letter-spacing:.01em}
+    .setb,.sap{background:linear-gradient(135deg,rgba(100,255,218,.12),rgba(0,180,216,.12));border:1px solid rgba(100,255,218,.28);color:#e6f1ff}
+    .setb:hover,.sap:hover{background:linear-gradient(135deg,rgba(100,255,218,.24),rgba(0,180,216,.24));border-color:var(--primary);color:#fff;transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.35),0 0 24px rgba(100,255,218,.14)}
+    body.cloaked-window .hub-sidebar-toggle{display:flex}
+    body.cloaked-window .hub-sidebar{display:block}
     ::-webkit-scrollbar{width:10px}
     ::-webkit-scrollbar-track{background:rgba(100,255,218,.05);border-radius:5px}
     ::-webkit-scrollbar-thumb{background:rgba(100,255,218,.2);border-radius:5px;border:2px solid transparent;background-clip:content-box}
@@ -226,14 +249,16 @@
   const block=e=>{e.preventDefault();e.stopPropagation();return false;};
   document.addEventListener('contextmenu',block,true);
   document.addEventListener('dragstart',block,true);
+  document.addEventListener('selectstart',e=>{if(e.target&&['INPUT','TEXTAREA'].includes(e.target.tagName))return;block(e);},true);
+  document.addEventListener('copy',e=>{if(e.target&&['INPUT','TEXTAREA'].includes(e.target.tagName))return;block(e);},true);
   document.addEventListener('keydown',function(e){
     const k=(e.key||'').toLowerCase();
-    if(k==='f12'||(e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(k))||(e.ctrlKey&&['u','s'].includes(k))){
+    if(k==='f12'||(e.ctrlKey&&e.shiftKey&&['i','j','c','k'].includes(k))||(e.ctrlKey&&['u','s','p'].includes(k))){
       block(e);
       alert('Code is protected.');
     }
   },true);
-  setInterval(()=>{try{console.clear();}catch(e){}},1200);
+  setInterval(()=>{try{console.clear();}catch(e){}},700);
 })();
 </script>
 
@@ -263,6 +288,22 @@
     <div id="clock-widget" title="Drag to move"><div class="time" id="clock-time">12:00</div><div class="date" id="clock-date">Loading...</div></div>
     <div id="playtimer" onclick="toggleTimerVisibility()">⏱️ <span id="timer-display">0:00</span></div>
     <div id="tooltip" class="tooltip"></div>
+    <button id="hub-sidebar-toggle" class="hub-sidebar-toggle" title="Open quick menu" onclick="toggleHubSidebar()">☰</button>
+    <nav id="hub-sidebar" class="hub-sidebar closed">
+      <div class="hub-sidebar-head">
+        <div class="hub-sidebar-title">Quick Menu</div>
+        <button class="hub-sidebar-x" onclick="toggleHubSidebar()">✕</button>
+      </div>
+      <button class="hub-sidebar-item" onclick="goMainHomepage()"><span class="ico">🏠</span><span>Home<small>Back to landing</small></span></button>
+      <button class="hub-sidebar-item" onclick="enterHub()"><span class="ico">🎮</span><span>Game Home<small>Open game homepage</small></span></button>
+      <button class="hub-sidebar-item" onclick="showHubSettings()"><span class="ico">⚙️</span><span>Settings<small>Cloak, theme, panic key</small></span></button>
+
+      <button class="hub-sidebar-item" onclick="openLandingInAboutBlank()"><span class="ico">🕶️</span><span>Cloak Tab<small>Open about:blank copy</small></span></button>
+      <button class="hub-sidebar-item" onclick="openMedia1()"><span class="ico">🎬</span><span>Media<small>Open cinema page</small></span></button>
+      <button class="hub-sidebar-item" onclick="openHubUpdates()"><span class="ico">📢</span><span>Updates<small>See what changed</small></span></button>
+      <button class="hub-sidebar-item" onclick="openSuggestions()"><span class="ico">📋</span><span>Suggestions<small>Request changes</small></span></button>
+      <button class="hub-sidebar-item" onclick="toggleFullscreen()"><span class="ico">⛶</span><span>Fullscreen<small>Toggle screen mode</small></span></button>
+    </nav>
 
 
     <div id="data-modal" onclick="if(event.target===this)closeDataModal()">
@@ -280,7 +321,7 @@
 
     <!-- LANDING PAGE -->
     <div id="lp">
-      <button class="cloak-btn" onclick="openLandingInAboutBlank()"><span>🕶️ Cloak</span><small>about:blank</small></button>
+
       <div class="orb"></div><div class="orb"></div><div class="orb"></div>
       <div class="bubble-lp" style="width:40px;height:40px;left:10%;animation-duration:12s"></div>
       <div class="bubble-lp" style="width:20px;height:20px;left:20%;animation-duration:15s;animation-delay:1s"></div>
@@ -299,7 +340,7 @@
           <button class="b3" onclick="openMedia1()">🎬 Media</button>
         </div>
         <div class="brs">
-          <button class="bs b6" onclick="openUpdates()">📢 Updates</button>
+          <button class="bs b6" onclick="openHubUpdates()">📢 Updates</button>
           <button class="bs b7" onclick="openSuggestions()">📋 Suggestions</button>
         </div>
       </div>
@@ -335,8 +376,10 @@
           <div class="ssec">
             <div class="slbl">⚡ Panic Key</div>
             <input class="sin" id="panic-key" placeholder="Key (e.g. `)" value="`">
-            <button class="sap" onclick="savePanicKey()">Save Key</button>
+            <input class="sin" id="panic-url" placeholder="Panic site URL" value="https://www.google.com">
+            <button class="sap" onclick="savePanicKey()">Save Panic Settings</button>
           </div>
+
           <div class="ssec">
             <div class="slbl">🔊 Audio</div>
             <div class="toggle-container"><span class="toggle-label">Sound Effects</span><div class="toggle-switch" id="sfx-toggle" onclick="toggleSFX()"><div class="toggle-slider"></div></div></div>
@@ -369,6 +412,25 @@
               <div class="td"     data-t="shadow"  style="background:linear-gradient(135deg,#708090,#2f4f4f)" onclick="applyTheme('shadow')"  title="Shadow"></div>
               <div class="td"     data-t="mono"    style="background:linear-gradient(135deg,#ffffff,#333333)" onclick="applyTheme('mono')"    title="Mono B&amp;W"></div>
             </div>
+            <div style="margin-top:14px">
+              <input class="sin" id="custom-primary" placeholder="Primary color, like #64ffda">
+              <input class="sin" id="custom-accent" placeholder="Accent color, like #00b4d8">
+              <button class="sap" onclick="saveCustomTheme()">Save Custom Theme</button>
+              <button class="sap" onclick="applySavedCustomTheme()">Use Custom Theme</button>
+            </div>
+          </div>
+          <div class="ssec">
+            <div class="slbl">🕶️ Cloak</div>
+            <input class="sin" id="cloak-title" placeholder="Tab title, like Google Classroom">
+            <input class="sin" id="cloak-url" placeholder="Website URL for favicon, like https://classroom.google.com/">
+            <input class="sin" id="cloak-icon" placeholder="Optional favicon URL">
+            <button class="sap" onclick="saveCustomCloak()">Save Custom Cloak</button>
+            <p style="color:var(--text-secondary);font-size:.8rem;margin:6px 0 12px">While you are on the tab it stays Hammerhead. When you click away, it switches to your cloak.</p>
+            <div class="slbl" style="margin-top:12px">Suggested cloaks</div>
+            <button class="sap" onclick="applyCloakPreset('classroom')">Google Classroom</button>
+            <button class="sap" onclick="applyCloakPreset('docs')">Google Docs</button>
+            <button class="sap" onclick="applyCloakPreset('drive')">Google Drive</button>
+            <button class="sap" onclick="applyCloakPreset('normal')">Hammerhead Hub</button>
           </div>
           <div class="ssec">
             <div class="slbl">🖼 Background Animation</div>
@@ -459,8 +521,9 @@
 
         <button class="setb" onclick="goMainHomepage()">🏠 Home</button>
         <button class="setb" onclick="document.getElementById('sp').classList.add('open')">⚙️ Settings</button>
-        <div style="width:100%;text-align:center;color:var(--primary);font-size:.85rem;font-weight:700;margin:2px 0 -6px;text-shadow:0 0 8px rgba(100,255,218,.35)">💖 Thanks Oma! ✨</div>
-        <button class="setb" onclick="openUrlInAboutBlank('https://csclub.uwaterloo.ca/~s23adhik/myPosts/imposter.html','Imposter Game')">🎭 Imposter Game</button>
+        <button class="setb" onclick="openDirectGameTab('https://csclub.uwaterloo.ca/~s23adhik/myPosts/imposter.html')">🎭 Imposter Game</button>
+
+
 
       </div>
       <div id="test-homepage-wrap" style="min-height:calc(100vh - 250px);background:#111;border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lg);margin-top:8px">
@@ -791,6 +854,7 @@ function updateFishColor(hue){fishHue=parseInt(hue);ST.set('fh',hue);document.ge
 window.onload=()=>{
   initPanicKey();
   document.getElementById('lp').style.display='flex';
+  try{localStorage.setItem('hammerheadHubHTML','<!DOCTYPE html>'+document.documentElement.outerHTML);}catch(e){}
   startPlayTimer();updateClock();setInterval(updateClock,1000);
   loadAchievements();
   document.addEventListener('keydown',handlePanicKey,true);
@@ -802,7 +866,12 @@ window.onload=()=>{
   document.addEventListener('click',handleFishClick);
   window.addEventListener('resize',()=>{if(fishCanvas){fishCanvas.width=window.innerWidth;fishCanvas.height=window.innerHeight;}});
   loadSettings();
+  initFeatureExtras();
+
+  ensureHubSidebar();
+  installCloakFocusHandlers();
   syncLandingBackground();
+  setInterval(updateHubSidebarVisibility,700);
   try{new MutationObserver(syncLandingBackground).observe(document.body,{attributes:true,attributeFilter:['style']});}catch(e){}
   
   // Initialize maintenance page particles
@@ -829,14 +898,27 @@ function initMaintParticles() {
 }
 
 
-function initPanicKey(){const p=ST.get('pk')||'`';const pk=document.getElementById('panic-key');if(pk)pk.value=p;}function savePanicKey(){  const pk=document.getElementById('panic-key');  const v=(pk&&pk.value?pk.value.trim():'`')||'`';  ST.set('pk',v);  if(pk)pk.value=v;  showErrorToast('Panic key saved');  playSound('click');}function handlePanicKey(e){  const saved=ST.get('pk')||'`';
+function initPanicKey(){const p=ST.get('pk')||'`';const pk=document.getElementById('panic-key');if(pk)pk.value=p;const pu=document.getElementById('panic-url');if(pu)pu.value=ST.get('panicUrl')||'https://www.google.com';}
+function savePanicKey(){
+  const pk=document.getElementById('panic-key');
+  const pu=document.getElementById('panic-url');
+  const v=(pk&&pk.value?pk.value.trim():'`')||'`';
+  const u=(pu&&pu.value?pu.value.trim():'https://www.google.com')||'https://www.google.com';
+  ST.set('pk',v);ST.set('panicUrl',u);
+  if(pk)pk.value=v;if(pu)pu.value=u;
+  showErrorToast('Panic settings saved');
+  playSound('click');
+}
+function handlePanicKey(e){
+  const saved=ST.get('pk')||'`';
   const target=e.target;
   const typing=target&&(target.tagName==='INPUT'||target.tagName==='TEXTAREA'||target.isContentEditable);
   if(typing)return;
   if(e.key===saved){
     e.preventDefault();
     e.stopPropagation();
-    try{window.location.replace('https://www.google.com');}catch(err){window.location.href='https://www.google.com';}
+    const u=ST.get('panicUrl')||'https://www.google.com';
+    try{window.location.replace(u);}catch(err){window.location.href=u;}
   }
 }
 function toggleSFX(){
@@ -915,8 +997,191 @@ function loadSettings(){
   updateTrailColor();
   updateFishColor(fishHue);
   if(ST.get('hasBg')==='true'){const photo=ST.get('bgPhoto');if(photo){const bov=ST.get('bgOpacity');if(bov){bgOpacity=parseInt(bov);document.getElementById('bg-opacity').value=bov;document.getElementById('bg-opacity-val').textContent=bov;}applyBgPhoto(photo);}}
+  const ct=document.getElementById('cloak-title'),cu=document.getElementById('cloak-url'),ci=document.getElementById('cloak-icon');
+  if(ct)ct.value=ST.get('cloakTitle')||'Google Classroom';
+  if(cu)cu.value=ST.get('cloakUrl')||'https://classroom.google.com/';
+  if(ci)ci.value=ST.get('cloakIcon')||'https://ssl.gstatic.com/classroom/favicon.png';
 }
 function switchTab(tab,btn){playSound('click');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+tab).classList.add('active');}
+function initFeatureExtras(){
+  initPanicKey();
+
+  const cp=document.getElementById('custom-primary');if(cp)cp.value=ST.get('customPrimary')||'';
+  const ca=document.getElementById('custom-accent');if(ca)ca.value=ST.get('customAccent')||'';
+  const ct=document.getElementById('cloak-title'),cu=document.getElementById('cloak-url'),ci=document.getElementById('cloak-icon');
+  if(ct)ct.value=ST.get('cloakTitle')||'Google Classroom';
+  if(cu)cu.value=ST.get('cloakUrl')||'https://classroom.google.com/';
+  if(ci)ci.value=ST.get('cloakIcon')||'https://ssl.gstatic.com/classroom/favicon.png';
+  initAnimatedIntro();
+}
+
+function ensureHubSidebar(){
+  if(!document.body)return;
+  if(!document.getElementById('hub-sidebar-toggle')){
+    const t=document.createElement('button');
+    t.id='hub-sidebar-toggle';
+    t.className='hub-sidebar-toggle';
+    t.title='Open quick menu';
+    t.innerHTML='☰';
+    t.onclick=toggleHubSidebar;
+    document.body.appendChild(t);
+  }
+  if(!document.getElementById('hub-sidebar')){
+    const s=document.createElement('nav');
+    s.id='hub-sidebar';
+    s.className='hub-sidebar closed';
+    s.innerHTML='<div class="hub-sidebar-head"><div class="hub-sidebar-title">Quick Menu</div><button class="hub-sidebar-x" onclick="toggleHubSidebar()">✕</button></div>'+
+      '<button class="hub-sidebar-item" onclick="goMainHomepage()"><span class="ico">🏠</span><span>Home<small>Back to landing</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="enterHub()"><span class="ico">🎮</span><span>Game Home<small>Open game homepage</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="showHubSettings()"><span class="ico">⚙️</span><span>Settings<small>Cloak, theme, panic key</small></span></button>'+
+
+      '<button class="hub-sidebar-item" onclick="openLandingInAboutBlank()"><span class="ico">🕶️</span><span>Cloak Tab<small>Open about:blank copy</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="openMedia1()"><span class="ico">🎬</span><span>Media<small>Open cinema page</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="openHubUpdates()"><span class="ico">📢</span><span>Updates<small>See what changed</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="openSuggestions()"><span class="ico">📋</span><span>Suggestions<small>Request changes</small></span></button>'+
+      '<button class="hub-sidebar-item" onclick="toggleFullscreen()"><span class="ico">⛶</span><span>Fullscreen<small>Toggle screen mode</small></span></button>';
+    document.body.appendChild(s);
+  }
+  updateHubSidebarVisibility();
+}
+function updateHubSidebarVisibility(){
+  const t=document.getElementById('hub-sidebar-toggle'),s=document.getElementById('hub-sidebar');
+  if(!t||!s)return;
+  const show=true;
+  t.style.display=show?'flex':'none';
+  s.style.display=show?'block':'none';
+  if(!show)s.classList.add('closed');
+}
+function toggleHubSidebar(){
+  ensureHubSidebar();
+  const s=document.getElementById('hub-sidebar');
+  if(s)s.classList.toggle('closed');
+  updateHubSidebarVisibility();
+}
+function showHubSettings(){
+  const sp=document.getElementById('sp');
+  if(sp)sp.classList.add('open');
+  const side=document.getElementById('hub-sidebar');
+  if(side)side.classList.add('closed');
+  showErrorToast('Check Settings for cloak, panic key, and themes');
+}
+function showSettingsReminder(){
+  if(ST.get('settingsReminderSeen')==='yes')return;
+  ST.set('settingsReminderSeen','yes');
+  const m=document.createElement('div');
+  m.className='settings-reminder';
+  m.innerHTML='<div class="settings-reminder-card"><h2>⚙️ Check Settings</h2><p>New cloak, panic key, theme, and quick menu options are in Settings.</p><div class="settings-reminder-actions"><button class="sap" style="width:auto;padding:12px 18px" onclick="document.querySelector(&quot;.settings-reminder&quot;).remove();showHubSettings()">Open Settings</button><button class="sap" style="width:auto;padding:12px 18px;background:rgba(255,255,255,.06)" onclick="document.querySelector(&quot;.settings-reminder&quot;).remove()">Later</button></div></div>';
+  document.body.appendChild(m);
+}
+function openHubUpdates(){
+  let modal=document.getElementById('updates-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='updates-modal';
+    modal.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:22px';
+    modal.innerHTML=`<div style="width:min(720px,100%);max-height:86vh;overflow:auto;background:rgba(10,25,47,.96);border:1px solid rgba(100,255,218,.28);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.55);padding:28px;color:#e6f1ff"><div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px"><h2 style="color:#64ffda;margin:0">📢 Hammerhead Hub Updates</h2><button class="sap" style="width:auto;margin:0;background:var(--danger)" onclick="document.getElementById('updates-modal').style.display='none'">✕</button></div><div style="color:#64ffda;font-weight:800;margin:18px 0 8px">Latest updates</div><ul style="padding-left:22px;line-height:1.9"><li>🎨 The intro now follows your saved colors while keeping the darker underwater look.</li><li>🖥️ The intro color fills the whole screen more evenly.</li><li>🔧 The hub startup was cleaned up so it loads more smoothly.</li><li>🎭 Imposter Game is back on the game homepage.</li></ul><div style="color:#64ffda;font-weight:800;margin:22px 0 8px">Earlier updates</div><ul style="padding-left:22px;line-height:1.9"><li>⚡ Panic key now saves both the key and the panic site URL.</li><li>🕶️ Cloak presets can rename the tab to Classroom, Docs, or Drive.</li><li>🎨 Custom theme saver lets you save your own main colors.</li><li>✨ The intro has a cleaner animated start.</li><li>🛡️ Extra code protection blocks more shortcuts and copying.</li><li>🎮 Imposter Game opens through the hub.</li><li>🎬 Media opens more smoothly from the hub.</li></ul></div>`;
+    document.body.appendChild(modal);
+  }else modal.style.display='flex';
+}
+
+const HAMMER_TITLE='Hammerhead Hub';
+const HAMMER_ICON="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔨%3C/text%3E%3C/svg%3E";
+function normalizeCloakUrl(url){
+  let u=(url||'').trim();
+  if(!u)return'https://classroom.google.com/';
+  if(!/^https?:\/\//i.test(u))u='https://'+u;
+  return u;
+}
+function faviconFromUrl(url){return 'https://www.google.com/s2/favicons?sz=64&domain_url='+encodeURIComponent(normalizeCloakUrl(url));}/*https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(normalizeCloakUrl(url))}`;}
+*/
+function setFavicon(href){
+  let icon=document.querySelector("link[rel='icon']");
+  if(!icon){icon=document.createElement('link');icon.rel='icon';document.head.appendChild(icon);}
+  icon.href=href||HAMMER_ICON;
+}
+function getCloakSettings(){
+  return{
+    title:ST.get('cloakTitle')||'Google Classroom',
+    url:ST.get('cloakUrl')||'https://classroom.google.com/',
+    icon:ST.get('cloakIcon')||'https://ssl.gstatic.com/classroom/favicon.png'
+  };
+}
+function updateCloakTabState(){
+  const c=getCloakSettings();
+  const active=document.hasFocus()&&!document.hidden;
+  document.title=active?HAMMER_TITLE:c.title;
+  setFavicon(active?HAMMER_ICON:c.icon);
+}
+function installCloakFocusHandlers(){
+  window.addEventListener('focus',updateCloakTabState);
+  window.addEventListener('blur',updateCloakTabState);
+  document.addEventListener('visibilitychange',updateCloakTabState);
+  updateCloakTabState();
+}
+function saveCustomCloak(){
+  const title=(document.getElementById('cloak-title')?.value||'').trim()||'Google Classroom';
+  const url=normalizeCloakUrl(document.getElementById('cloak-url')?.value||'https://classroom.google.com/');
+  const icon=(document.getElementById('cloak-icon')?.value||'').trim()||faviconFromUrl(url);
+  ST.set('cloakTitle',title);ST.set('cloakUrl',url);ST.set('cloakIcon',icon);ST.set('cloakPreset','custom');
+  updateCloakTabState();
+  showErrorToast('Cloak saved');
+}
+function applyCloakPreset(type,silent){
+  const presets={
+    classroom:['Google Classroom','https://classroom.google.com/','https://ssl.gstatic.com/classroom/favicon.png'],
+    docs:['Google Docs','https://docs.google.com/document/u/0/','https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico'],
+    drive:['Google Drive','https://drive.google.com/','https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png'],
+    normal:[HAMMER_TITLE,'',HAMMER_ICON]
+  };
+  const p=presets[type]||presets.classroom;
+  ST.set('cloakPreset',type);
+  ST.set('cloakTitle',p[0]);
+  ST.set('cloakUrl',p[1]);
+  ST.set('cloakIcon',p[2]);
+  const ct=document.getElementById('cloak-title'),cu=document.getElementById('cloak-url'),ci=document.getElementById('cloak-icon');
+  if(ct)ct.value=p[0];if(cu)cu.value=p[1];if(ci)ci.value=p[2];
+  updateCloakTabState();
+  if(!silent)showErrorToast(type==='normal'?'Cloak reset':'Cloak preset saved');
+}
+function saveCustomTheme(){
+  const p=(document.getElementById('custom-primary')?.value||'').trim();
+  const a=(document.getElementById('custom-accent')?.value||'').trim();
+  if(!/^#[0-9a-f]{6}$/i.test(p)||!/^#[0-9a-f]{6}$/i.test(a)){showErrorToast('Use colors like #64ffda');return;}
+  ST.set('customPrimary',p);ST.set('customAccent',a);applySavedCustomTheme();showErrorToast('Custom theme saved');
+}
+function applySavedCustomTheme(){
+  const p=ST.get('customPrimary')||'#64ffda',a=ST.get('customAccent')||'#00b4d8';
+  document.documentElement.style.setProperty('--primary',p);
+  document.documentElement.style.setProperty('--accent',a);
+  document.documentElement.style.setProperty('--accent-dark',a);
+  document.body.style.background=`linear-gradient(-45deg,#0a192f,${p},${a},#0a192f)`;
+  document.body.style.backgroundSize='400% 400%';
+  syncLandingBackground();
+}
+function initAnimatedIntro(){
+  const introPhrases=['diving in','diving in','diving in','loading the depths','swimming deeper','making waves','entering the hub','surfacing soon','powering up','deep sea mode'];
+  const introPhrase=introPhrases[Math.floor(Math.random()*introPhrases.length)];
+  const rootStyles=getComputedStyle(document.documentElement);
+  const introPrimary=(rootStyles.getPropertyValue('--primary')||ST.get('customPrimary')||'#64ffda').trim();
+  const introAccent=(rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#00b4d8').trim();
+  const introDeep=(rootStyles.getPropertyValue('--accent-dark')||rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#0077b6').trim();
+  const intro=document.createElement('div');
+  intro.style.cssText=`position:fixed;inset:0;z-index:100020;overflow:hidden;background:linear-gradient(180deg,color-mix(in srgb, ${introPrimary} 55%, #001233 45%) 0%,color-mix(in srgb, ${introAccent} 60%, #001233 40%) 28%,color-mix(in srgb, ${introDeep} 55%, #001233 45%) 58%,#023e8a 82%,#001233 100%);display:flex;align-items:center;justify-content:center;color:#e6f1ff;font-family:Segoe UI,system-ui,sans-serif;transition:opacity .9s ease;pointer-events:none`;
+  intro.innerHTML='<div style="position:absolute;inset:-25%;background:radial-gradient(circle at 50% 12%,rgba(202,240,248,.5),transparent 16%),radial-gradient(circle at 25% 42%,rgba(72,202,228,.22),transparent 18%),radial-gradient(circle at 78% 54%,rgba(0,119,182,.28),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,29,61,.45) 58%,rgba(0,8,20,.72));animation:waterRushBg 1.45s cubic-bezier(.16,1,.3,1) forwards"></div><div style="position:absolute;inset:0;background:linear-gradient(100deg,transparent 0 20%,rgba(202,240,248,.1) 28%,transparent 38% 58%,rgba(144,224,239,.08) 66%,transparent 76%),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);filter:blur(5px);opacity:.58;animation:waterStreaks .55s linear infinite"></div><div style="position:absolute;top:-22%;left:12%;width:76%;height:86%;background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(202,240,248,.18) 16%,transparent 34%),linear-gradient(78deg,transparent 0 26%,rgba(255,255,255,.2) 42%,transparent 58%);filter:blur(18px);opacity:.72;transform:skewX(-10deg);mix-blend-mode:screen"></div><div style="position:absolute;inset:0;background:radial-gradient(circle at 15% 78%,rgba(202,240,248,.22) 0 1.5px,transparent 2.5px),radial-gradient(circle at 84% 64%,rgba(202,240,248,.18) 0 2px,transparent 3px),radial-gradient(circle at 67% 22%,rgba(255,255,255,.16) 0 1.5px,transparent 2.5px),radial-gradient(circle at 31% 31%,rgba(255,255,255,.13) 0 2px,transparent 3px);background-size:92px 92px,130px 130px,74px 74px,112px 112px;opacity:.7;animation:waterStreaks 1.2s linear infinite"></div><div style="position:absolute;left:-10%;right:-10%;bottom:-10%;height:42%;background:radial-gradient(ellipse at 50% 0%,rgba(144,224,239,.18),transparent 52%),linear-gradient(180deg,rgba(0,119,182,.14),rgba(0,18,51,.62));filter:blur(10px);animation:waterWave 1.2s ease-in-out infinite alternate"></div><div id="intro-bubbles" style="position:absolute;inset:0;overflow:hidden"></div><div style="position:relative;text-align:center;transform:translateY(30px);animation:diveTitle 1.25s cubic-bezier(.16,1,.3,1) forwards"><div style="font-size:clamp(3.2rem,10vw,6.6rem);font-weight:900;letter-spacing:-3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-dark),var(--primary));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 24px 40px rgba(0,0,0,.46));animation:textGradient 5s ease infinite">🔨 Hammerhead Hub</div><div style="margin-top:10px;color:#caf0f8;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.4)">'+introPhrase+'</div></div>';
+  const style=document.createElement('style');
+  style.textContent='@keyframes waterRushBg{0%{transform:scale(2.1) translateY(55%);filter:blur(16px)}100%{transform:scale(1) translateY(0);filter:blur(0)}}@keyframes waterStreaks{from{transform:translateY(110px) skewY(-4deg)}to{transform:translateY(-110px) skewY(-4deg)}}@keyframes waterWave{from{transform:translateY(15px) scaleX(1.08)}to{transform:translateY(-15px) scaleX(1)}}@keyframes diveTitle{0%{opacity:0;transform:translateY(150px) scale(.78)}50%{opacity:1;transform:translateY(-24px) scale(1.07)}100%{opacity:1;transform:translateY(0) scale(1)}}@keyframes introBubbleUp{0%{transform:translateY(115vh) translateX(0) scale(.22);opacity:0}8%{opacity:.95}65%{opacity:.75}100%{transform:translateY(-24vh) translateX(var(--drift)) scale(1.9);opacity:0}}@keyframes introTinyBubble{0%{transform:translateY(105vh) translateX(0) scale(.1);opacity:0}10%{opacity:.85}100%{transform:translateY(-18vh) translateX(var(--drift)) scale(1.1);opacity:0}}';
+  document.head.appendChild(style);
+  document.body.appendChild(intro);
+  const box=intro.querySelector('#intro-bubbles');
+  for(let i=0;i<175;i++){
+    const b=document.createElement('div');
+    const tiny=i%3===0;
+    const s=tiny?3+Math.random()*14:10+Math.random()*56;
+    b.style.cssText=`--drift:${-80+Math.random()*160}px;position:absolute;left:${Math.random()*100}%;bottom:-95px;width:${s}px;height:${s}px;border-radius:50%;border:1px solid rgba(255,255,255,${tiny ? .62 : .84});background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.82),rgba(255,255,255,.18) 34%,rgba(255,255,255,.06) 70%);box-shadow:0 0 ${tiny?16:34}px rgba(202,240,248,.68),inset 0 0 14px rgba(255,255,255,.26);animation:${tiny?'introTinyBubble':'introBubbleUp'} ${.6+Math.random()*1.7}s linear ${Math.random()*.72}s forwards`;
+    box.appendChild(b);
+  }
+  setTimeout(()=>{intro.style.opacity='0';setTimeout(()=>{intro.remove();style.remove();},950);},1900);
+}
 
 
 /* HUB */
@@ -943,24 +1208,26 @@ function initHomepageTest(){
   s.onload=start;
   document.body.appendChild(s);
 }
-function enterHub(){playSound('open');document.getElementById('lp').style.display='none';document.getElementById('main-content').style.display='block';trailEnabled=true;ST.set('trailEnabled','true');lastTrailX=-9999;lastTrailY=-9999;if(fishCanvas)fishCanvas.style.display='block';if(trailType==='fish'&&trailEnabled)initFish();initHomepageTest();}
-function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';lastTrailX=-9999;lastTrailY=-9999;if(trailType==='fish'&&trailEnabled){if(!fishCanvas)initFish();else fishCanvas.style.display='block';}else if(fishCanvas)fishCanvas.style.display='none';window.scrollTo({top:0,behavior:'smooth'});}
+function enterHub(){playSound('open');document.getElementById('lp').style.display='none';document.getElementById('main-content').style.display='block';trailEnabled=true;ST.set('trailEnabled','true');lastTrailX=-9999;lastTrailY=-9999;if(fishCanvas)fishCanvas.style.display='block';if(trailType==='fish'&&trailEnabled)initFish();initHomepageTest();ensureHubSidebar();updateHubSidebarVisibility();setTimeout(showSettingsReminder,650);}
+function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';initAnimatedIntro();lastTrailX=-9999;lastTrailY=-9999;if(trailType==='fish'&&trailEnabled){if(!fishCanvas)initFish();else fishCanvas.style.display='block';}else if(fishCanvas)fishCanvas.style.display='none';updateHubSidebarVisibility();window.scrollTo({top:0,behavior:'smooth'});}
 
 
 /* CLOCK */
 function updateClock(){const now=new Date();document.getElementById('clock-time').textContent=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});document.getElementById('clock-date').textContent=now.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});}
 function startPlayTimer(){setInterval(()=>{totalPlayTime++;if(totalPlayTime%60===0)ST.set('playTime',totalPlayTime);const h=Math.floor(totalPlayTime/3600),m=Math.floor((totalPlayTime%3600)/60);document.getElementById('timer-display').textContent=`${h}:${m.toString().padStart(2,'0')}`;document.getElementById('total-time').textContent=`Total: ${h}h ${m}m`;if(totalPlayTime===3600)checkAchievements();},1000);}
 function openUpdates(){
-  alert("Latest updates:\n• Panic key now saves and works, and fullscreen, sound effects, and data tools work better\n• Your colors, background, and mouse trail choices now stay saved\n• The Cloak button can open the hub in a blank tab\n• The hub can tell when games are having connection trouble\n• The offline screen now has retry, Media, and Suggestions buttons\n• The games area has been cleaned up so it is easier to open and use\n• Media opens more smoothly from the hub\n• The landing page better matches your selected background style");
+  alert("Latest updates:\n• The intro now follows your saved colors while keeping the darker underwater look\n• The intro color fills the whole screen more evenly\n• The hub startup was cleaned up so it loads more smoothly\n• Imposter Game is back on the game homepage\n\nEarlier updates:\n• Panic key now saves and works, and fullscreen, sound effects, and data tools work better\n• Your colors, background, and mouse trail choices now stay saved\n• The Cloak button can open the hub in a blank tab\n• The hub can tell when games are having connection trouble\n• The offline screen now has retry, Media, and Suggestions buttons\n• Media opens more smoothly from the hub");
   const w=window.open('about:blank','_blank');
   if(!w)return;
-  w.document.write(`<!DOCTYPE html><html><head><title>Updates</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:linear-gradient(-45deg,#0a192f,#112240,#0d47a1,#1565c0);background-size:400% 400%;animation:bg 15s ease infinite;min-height:100vh;font-family:-apple-system,sans-serif;color:#e6f1ff}.shell{min-height:100vh;display:flex;flex-direction:column}.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18)}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}@keyframes bg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}.c{background:rgba(10,25,47,.85);border:2px solid #1e3a5f;border-radius:20px;padding:40px;max-width:680px;width:100%}h1{background:linear-gradient(90deg,#64ffda,#00b4d8,#0077b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:32px;margin-bottom:20px}.h{color:#64ffda;font-size:15px;font-weight:bold;margin:16px 0 8px;border-bottom:1px solid #1e3a5f;padding-bottom:4px}ul{list-style:none}li{color:#ccd6f6;font-size:14px;padding:4px 0 4px 18px;position:relative}li::before{content:"\\2726";position:absolute;left:0;color:#64ffda;font-size:10px;top:6px}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back to Landing</button><div class="ttl">📢 Updates</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="wrap"><div class="c"><h1>🔨 Hammerhead Hub Updates</h1><div class="h">Latest updates</div><ul><li>⚙️ Panic key now saves and works, and fullscreen, sound effects, and data tools work better</li><li>💾 Your colors, background, and mouse trail choices now stay saved</li><li>🕶️ The Cloak button can open the hub in a blank tab</li><li>🛠️ The hub can tell when games are having connection trouble</li><li>🔧 The offline screen now has retry, Media, and Suggestions buttons</li><li>🎮 The games area has been cleaned up so it is easier to open and use</li><li>🎬 Media opens more smoothly from the hub</li><li>🎨 The landing page better matches your selected background style</li></ul></div></div></div></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Updates</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:linear-gradient(-45deg,#0a192f,#112240,#0d47a1,#1565c0);background-size:400% 400%;animation:bg 15s ease infinite;min-height:100vh;font-family:-apple-system,sans-serif;color:#e6f1ff}.shell{min-height:100vh;display:flex;flex-direction:column}.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18)}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}@keyframes bg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}.c{background:rgba(10,25,47,.85);border:2px solid #1e3a5f;border-radius:20px;padding:40px;max-width:680px;width:100%}h1{background:linear-gradient(90deg,#64ffda,#00b4d8,#0077b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:32px;margin-bottom:20px}.h{color:#64ffda;font-size:15px;font-weight:bold;margin:16px 0 8px;border-bottom:1px solid #1e3a5f;padding-bottom:4px}ul{list-style:none}li{color:#ccd6f6;font-size:14px;padding:4px 0 4px 18px;position:relative}li::before{content:"\\2726";position:absolute;left:0;color:#64ffda;font-size:10px;top:6px}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">📢 Updates</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="wrap"><div class="c"><h1>🔨 Hammerhead Hub Updates</h1><div class="h">Latest updates</div><ul><li>⚙️ Panic key now saves and works, and fullscreen, sound effects, and data tools work better</li><li>💾 Your colors, background, and mouse trail choices now stay saved</li><li>🕶️ The Cloak button can open the hub in a blank tab</li><li>🛠️ The hub can tell when games are having connection trouble</li><li>🔧 The offline screen now has retry, Media, and Suggestions buttons</li><li>🎮 The games area has been cleaned up so it is easier to open and use</li><li>🎬 Media opens more smoothly from the hub</li><li>🎨 The landing page better matches your selected background style</li></ul></div></div></div></body></html>`);
 }
 function openLatestUpdates(){openUpdates();}
 function openLandingInAboutBlank(){
   const w=window.open('about:blank','_blank');
   if(!w)return;
-  const html='<!DOCTYPE html>'+document.documentElement.outerHTML;
+  let html='<!DOCTYPE html>'+document.documentElement.outerHTML;
+  html=html.replace('<body>','<body class="cloaked-window">');
+  html=html.replace(/<button class="cloak-btn" onclick="openLandingInAboutBlank\(\)"><span>🕶️ Cloak<\/span><small>about:blank<\/small><\/button>/g,'');
   w.document.open();
   w.document.write(html);
   w.document.close();
@@ -971,14 +1238,14 @@ function openUrlInAboutBlank(url,title='New Tab'){
   const safeUrl=String(url).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
   const safeTitle=String(title).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   w.document.open();
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${safeTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:Segoe UI,system-ui,sans-serif}.tb{height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.tb button{border:none;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.newtab{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}iframe{width:100%;height:calc(100% - 54px);border:none;background:#000}</style></head><body><div class="tb"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back</button><div class="ttl">${safeTitle}</div><div class="acts"><button class="newtab" onclick="const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write('<!DOCTYPE html><html><head><title>${safeTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:none;background:#000}</style></head><body><iframe src=&quot;${safeUrl}&quot; allowfullscreen allow=&quot;storage-access *; autoplay; fullscreen&quot;></iframe></body></html>');w.document.close();}">↗ New Tab</button><button class="close" onclick="window.close()">✕ Close</button></div></div><iframe src="${safeUrl}" allowfullscreen allow="storage-access *; autoplay; fullscreen"></iframe></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${safeTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:Segoe UI,system-ui,sans-serif}.tb{height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.tb button{border:none;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.newtab{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}iframe{width:100%;height:calc(100% - 54px);border:none;background:#000}</style></head><body><div class="tb"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back</button><div class="ttl">${safeTitle}</div><div class="acts"><button class="newtab" onclick="const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write('<!DOCTYPE html><html><head><title>${safeTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:none;background:#000}</style></head><body><iframe src=&quot;${safeUrl}&quot; allowfullscreen allow=&quot;storage-access *; autoplay; fullscreen&quot;></iframe></body></html>');w.document.close();}">↗ New Tab</button><button class="close" onclick="window.close()">✕ Close</button></div></div><iframe src="${safeUrl}" allowfullscreen allow="storage-access *; autoplay; fullscreen"></iframe></body></html>`);
   w.document.close();
 }
 function openMedia1(){
   const w=window.open('about:blank','_blank');
   if(!w)return;
   w.document.open();
-  w.document.write(`<!DOCTYPE html><html><head><title>Media</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.stage{position:relative;flex:1}.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#000}#L{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#e50914;font-size:24px;font-family:sans-serif;z-index:2}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back to Landing</button><div class="ttl">🎬 Media</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="stage"><div id="L">Loading...</div><iframe src="https://cinemaos.tech" allowfullscreen onload="document.getElementById('L').style.display='none'"></iframe></div></div></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Media</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.stage{position:relative;flex:1}.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#000}#L{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#e50914;font-size:24px;font-family:sans-serif;z-index:2}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">🎬 Media</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="stage"><div id="L">Loading...</div><iframe src="https://cinemaos.tech" allowfullscreen onload="document.getElementById('L').style.display='none'"></iframe></div></div></body></html>`);
   w.document.close();
 }
 function toggleTimerVisibility(){const t=document.getElementById('playtimer');t.classList.toggle('visible');ST.set('timerVisible',t.classList.contains('visible'));}
@@ -1233,17 +1500,17 @@ function toggleFullscreen(){
 function openProxy(){
   const w=window.open('about:blank','_blank');
   if(!w)return;
-  w.document.write(`<!DOCTYPE html><html><head><title>Google Classroom</title><link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png"><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}iframe{width:100%;height:calc(100% - 56px);border:none;background:#000}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back to Landing</button><div class="ttl">🌐 Proxy</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><iframe src="https://nebulaisgud.neocities.org" allowfullscreen></iframe></div></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Google Classroom</title><link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png"><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}iframe{width:100%;height:calc(100% - 56px);border:none;background:#000}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">🌐 Proxy</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><iframe src="https://nebulaisgud.neocities.org" allowfullscreen></iframe></div></body></html>`);
 }
 function openCinemaOS(){
   const w=window.open('about:blank','_blank');
   if(!w)return;
-  w.document.write(`<!DOCTYPE html><html><head><title>Media</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.stage{position:relative;flex:1}.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#000}#L{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#e50914;font-size:24px;font-family:sans-serif;z-index:2}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back to Landing</button><div class="ttl">🎬 Media</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="stage"><div id="L">Loading...</div><iframe src="https://cinemaos.tech" allowfullscreen onload="document.getElementById('L').style.display='none'"></iframe></div></div></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Media</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18);color:#e6f1ff}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.stage{position:relative;flex:1}.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#000}#L{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#e50914;font-size:24px;font-family:sans-serif;z-index:2}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">🎬 Media</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="stage"><div id="L">Loading...</div><iframe src="https://cinemaos.tech" allowfullscreen onload="document.getElementById('L').style.display='none'"></iframe></div></div></body></html>`);
 }
 function openSuggestions(){
   const w=window.open('about:blank','_blank');
   if(!w)return;
-  w.document.write(`<!DOCTYPE html><html><head><title>Suggestions</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#08111f;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif;color:#e6f1ff}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18)}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.open{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff}.framewrap{position:relative;flex:1}.hint{position:absolute;top:14px;right:14px;z-index:2;background:rgba(10,25,47,.82);border:1px solid rgba(100,255,218,.18);border-radius:12px;padding:10px 12px;font-size:12px;color:#cfe6ff;max-width:280px}.framewrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{window.close()}">← Back to Landing</button><div class="ttl">📋 Suggestions</div><div class="acts"><button class="open" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdtNNM9-h-WX5oXop4IUluolZUn2PLjEvpL8yzqxXh2O4NEMg/viewform','_blank')">↗ Open direct</button></div></div><div class="framewrap"><div class="hint">If the form does not load here, use <strong>Open direct</strong>.</div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdtNNM9-h-WX5oXop4IUluolZUn2PLjEvpL8yzqxXh2O4NEMg/viewform"></iframe></div></div></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Suggestions</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;background:#08111f;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif;color:#e6f1ff}.shell{width:100%;height:100%;display:flex;flex-direction:column}.bar{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18)}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.open{background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff}.framewrap{position:relative;flex:1}.hint{position:absolute;top:14px;right:14px;z-index:2;background:rgba(10,25,47,.82);border:1px solid rgba(100,255,218,.18);border-radius:12px;padding:10px 12px;font-size:12px;color:#cfe6ff;max-width:280px}.framewrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:#fff}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">📋 Suggestions</div><div class="acts"><button class="open" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdtNNM9-h-WX5oXop4IUluolZUn2PLjEvpL8yzqxXh2O4NEMg/viewform','_blank')">↗ Open direct</button></div></div><div class="framewrap"><div class="hint">If the form does not load here, use <strong>Open direct</strong>.</div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdtNNM9-h-WX5oXop4IUluolZUn2PLjEvpL8yzqxXh2O4NEMg/viewform"></iframe></div></div></body></html>`);
 }
 
 
