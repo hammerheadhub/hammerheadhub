@@ -69,6 +69,12 @@
     .b4:hover{transform:translateY(-3px)}
     .b6{background:linear-gradient(135deg,#5500aa,#9900cc);border:2px solid rgba(204,102,255,.5)}
     .b6:hover{transform:translateY(-3px)}
+    .update-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;margin-left:7px;padding:0 5px;border-radius:999px;background:#ff2d55;color:#fff;font-size:.68rem;font-weight:900;box-shadow:0 0 16px rgba(255,45,85,.72);vertical-align:middle;animation:updateBadgePulse 1.4s ease-in-out infinite}
+    .update-badge.hidden{display:none}
+    .update-tag{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;margin-left:8px;background:rgba(255,45,85,.16);border:1px solid rgba(255,45,85,.45);color:#ff8fab;font-size:.68rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+    .update-date{display:block;color:#8892b0;font-size:.78rem;font-weight:700;margin:2px 0 4px}
+
+    @keyframes updateBadgePulse{0%,100%{transform:scale(1);box-shadow:0 0 12px rgba(255,45,85,.55)}50%{transform:scale(1.14);box-shadow:0 0 24px rgba(255,45,85,.9)}}
     .b7{background:linear-gradient(135deg,#1a7a1a,#2ecc2e);border:2px solid rgba(100,255,100,.5)}
     .b7:hover{transform:translateY(-3px);color:var(--bg-deep)}
     .cloak-btn{position:fixed;top:20px;left:20px;background:linear-gradient(135deg,#000,#111);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;z-index:100003;box-shadow:0 10px 30px rgba(0,0,0,.45)}
@@ -300,7 +306,7 @@
 
       <button class="hub-sidebar-item" onclick="openLandingInAboutBlank()"><span class="ico">🕶️</span><span>Cloak Tab<small>Open about:blank copy</small></span></button>
       <button class="hub-sidebar-item" onclick="openMedia1()"><span class="ico">🎬</span><span>Media<small>Open cinema page</small></span></button>
-      <button class="hub-sidebar-item" onclick="openHubUpdates()"><span class="ico">📢</span><span>Updates<small>See what changed</small></span></button>
+      <button class="hub-sidebar-item" onclick="openHubUpdates()"><span class="ico">📢</span><span>Updates <span class="update-badge">NEW</span><small>See what changed</small></span></button>
       <button class="hub-sidebar-item" onclick="openSuggestions()"><span class="ico">📋</span><span>Suggestions<small>Request changes</small></span></button>
       <button class="hub-sidebar-item" onclick="toggleFullscreen()"><span class="ico">⛶</span><span>Fullscreen<small>Toggle screen mode</small></span></button>
     </nav>
@@ -309,7 +315,7 @@
     <div id="data-modal" onclick="if(event.target===this)closeDataModal()">
       <div class="modal-content">
         <h3>📦 Data Management</h3>
-        <div class="ssec"><div class="slbl">Export</div><button class="sap" onclick="exportData()">Copy to Clipboard</button></div>
+        <div class="ssec"><div class="slbl">Export</div><button class="sap" onclick="exportData()">Copy Settings Code</button></div>
         <div class="ssec"><div class="slbl">Import</div><textarea id="import-data" placeholder="Paste code here..."></textarea><button class="sap" onclick="importData()">Import</button></div>
         <button class="sap" style="background:var(--danger)" onclick="closeDataModal()">Close</button>
       </div>
@@ -340,7 +346,7 @@
           <button class="b3" onclick="openMedia1()">🎬 Media</button>
         </div>
         <div class="brs">
-          <button class="bs b6" onclick="openHubUpdates()">📢 Updates</button>
+          <button class="bs b6" onclick="openHubUpdates()">📢 Updates <span class="update-badge">NEW</span></button>
           <button class="bs b7" onclick="openSuggestions()">📋 Suggestions</button>
         </div>
       </div>
@@ -378,6 +384,13 @@
             <input class="sin" id="panic-key" placeholder="Key (e.g. `)" value="`">
             <input class="sin" id="panic-url" placeholder="Panic site URL" value="https://www.google.com">
             <button class="sap" onclick="savePanicKey()">Save Panic Settings</button>
+            <div class="slbl" style="margin-top:12px">Panic presets</div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+              <button class="sap" style="margin:0;padding:10px;font-size:.78rem" onclick="applyPanicPreset('`','https://www.google.com')">Google</button>
+              <button class="sap" style="margin:0;padding:10px;font-size:.78rem" onclick="applyPanicPreset('Escape','https://classroom.google.com/')">Classroom</button>
+              <button class="sap" style="margin:0;padding:10px;font-size:.78rem" onclick="applyPanicPreset('Shift','https://docs.google.com/document/u/0/')">Google Docs</button>
+              <button class="sap" style="margin:0;padding:10px;font-size:.78rem" onclick="applyPanicPreset('Alt','https://drive.google.com/')">Google Drive</button>
+            </div>
           </div>
 
           <div class="ssec">
@@ -389,9 +402,12 @@
             <button class="sap" onclick="checkGameStatus()">Check Game Status</button>
             <p style="color:var(--text-secondary);font-size:0.8rem;margin-top:8px">Tests connectivity to game servers</p>
           </div>
+
           <div class="ssec">
-            <div class="slbl">💾 Data</div>
-            <button class="sap" onclick="document.getElementById('data-modal').style.display='flex'">Import / Export Settings</button>
+            <div class="slbl">💾 Settings import / export</div>
+            <button class="sap" onclick="exportData()">Export Settings Code</button>
+            <button class="sap" onclick="document.getElementById('data-modal').style.display='flex'">Import Settings Code</button>
+            <p style="color:var(--text-secondary);font-size:0.8rem;margin-top:8px">Saves favorites, play stats, panic key, themes, cloak choices, trails, and background settings.</p>
           </div>
         </div>
         <div id="tab-customization" class="tab-panel">
@@ -411,8 +427,21 @@
               <div class="td"     data-t="cosmic"  style="background:linear-gradient(135deg,#ff00ff,#00ffff)" onclick="applyTheme('cosmic')"  title="Cosmic"></div>
               <div class="td"     data-t="shadow"  style="background:linear-gradient(135deg,#708090,#2f4f4f)" onclick="applyTheme('shadow')"  title="Shadow"></div>
               <div class="td"     data-t="mono"    style="background:linear-gradient(135deg,#ffffff,#333333)" onclick="applyTheme('mono')"    title="Mono B&amp;W"></div>
+              <div class="td"     data-t="deepOcean" style="background:linear-gradient(135deg,#001233,#0077b6)" onclick="applyTheme('deepOcean')" title="Deep Ocean"></div>
+              <div class="td"     data-t="neonShark" style="background:linear-gradient(135deg,#64ffda,#00ff88)" onclick="applyTheme('neonShark')" title="Neon Shark"></div>
+              <div class="td"     data-t="midnight" style="background:linear-gradient(135deg,#020617,#334155)" onclick="applyTheme('midnight')" title="Midnight"></div>
+              <div class="td"     data-t="schoolMode" style="background:linear-gradient(135deg,#1d4ed8,#22c55e)" onclick="applyTheme('schoolMode')" title="School Mode"></div>
+              <div class="td"     data-t="purpleGlow" style="background:linear-gradient(135deg,#7c3aed,#ec4899)" onclick="applyTheme('purpleGlow')" title="Purple Glow"></div>
             </div>
             <div style="margin-top:14px">
+              <div class="slbl">Theme presets</div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px">
+                <button class="sap" style="margin:0;padding:10px;font-size:.78rem;background:linear-gradient(135deg,#001233,#0077b6)" onmouseenter="previewTheme('deepOcean')" onmouseleave="endThemePreview()" onclick="applyTheme('deepOcean')">Deep Ocean</button>
+                <button class="sap" style="margin:0;padding:10px;font-size:.78rem;background:linear-gradient(135deg,#64ffda,#00ff88);color:#001233" onmouseenter="previewTheme('neonShark')" onmouseleave="endThemePreview()" onclick="applyTheme('neonShark')">Neon Shark</button>
+                <button class="sap" style="margin:0;padding:10px;font-size:.78rem;background:linear-gradient(135deg,#020617,#334155)" onmouseenter="previewTheme('midnight')" onmouseleave="endThemePreview()" onclick="applyTheme('midnight')">Midnight</button>
+                <button class="sap" style="margin:0;padding:10px;font-size:.78rem;background:linear-gradient(135deg,#1d4ed8,#22c55e)" onmouseenter="previewTheme('schoolMode')" onmouseleave="endThemePreview()" onclick="applyTheme('schoolMode')">School Mode</button>
+                <button class="sap" style="margin:0;padding:10px;font-size:.78rem;background:linear-gradient(135deg,#7c3aed,#ec4899)" onmouseenter="previewTheme('purpleGlow')" onmouseleave="endThemePreview()" onclick="applyTheme('purpleGlow')">Purple Glow</button>
+              </div>
               <input class="sin" id="custom-primary" placeholder="Primary color, like #64ffda">
               <input class="sin" id="custom-accent" placeholder="Accent color, like #00b4d8">
               <button class="sap" onclick="saveCustomTheme()">Save Custom Theme</button>
@@ -571,7 +600,12 @@ const THEMES={
   amber:{p:'#ffbf00',a:'#ff8c00',a2:'#cc7000',bg:'linear-gradient(-45deg,#1a1200,#2d1f0d,#4d350a,#6b4a00,#1a1200)'},
   cosmic:{p:'#ff00ff',a:'#00ffff',a2:'#bf00ff',bg:'linear-gradient(-45deg,#0a0a1a,#1a0a2e,#2d0a4d,#4d0a6b,#0a0a1a)'},
   shadow:{p:'#a0aec0',a:'#718096',a2:'#4a5568',bg:'linear-gradient(-45deg,#0f1419,#1a202c,#2d3748,#4a5568,#0f1419)'},
-  mono:{p:'#ffffff',a:'#cccccc',a2:'#888888',bg:'linear-gradient(-45deg,#000000,#0d0d0d,#1a1a1a,#262626,#000000)'}
+  mono:{p:'#ffffff',a:'#cccccc',a2:'#888888',bg:'linear-gradient(-45deg,#000000,#0d0d0d,#1a1a1a,#262626,#000000)'},
+  deepOcean:{p:'#90e0ef',a:'#0077b6',a2:'#001233',bg:'linear-gradient(-45deg,#001233,#003566,#0077b6,#001d3d,#001233)'},
+  neonShark:{p:'#64ffda',a:'#00ff88',a2:'#00b4d8',bg:'linear-gradient(-45deg,#001219,#005f73,#0a9396,#64ffda,#001219)'},
+  midnight:{p:'#cbd5e1',a:'#64748b',a2:'#1e293b',bg:'linear-gradient(-45deg,#020617,#0f172a,#1e293b,#334155,#020617)'},
+  schoolMode:{p:'#93c5fd',a:'#22c55e',a2:'#1d4ed8',bg:'linear-gradient(-45deg,#0f172a,#1e3a8a,#1d4ed8,#16a34a,#0f172a)'},
+  purpleGlow:{p:'#f0abfc',a:'#a855f7',a2:'#7c3aed',bg:'linear-gradient(-45deg,#1e1b4b,#4c1d95,#7c3aed,#db2777,#1e1b4b)'}
 };
 const ACHIEVEMENTS=[
   {id:'first',name:'First Steps',check:()=>playCount>=1},
@@ -899,6 +933,12 @@ function initMaintParticles() {
 
 
 function initPanicKey(){const p=ST.get('pk')||'`';const pk=document.getElementById('panic-key');if(pk)pk.value=p;const pu=document.getElementById('panic-url');if(pu)pu.value=ST.get('panicUrl')||'https://www.google.com';}
+function applyPanicPreset(key,url){
+  const pk=document.getElementById('panic-key'),pu=document.getElementById('panic-url');
+  if(pk)pk.value=key;
+  if(pu)pu.value=url;
+  savePanicKey();
+}
 function savePanicKey(){
   const pk=document.getElementById('panic-key');
   const pu=document.getElementById('panic-url');
@@ -951,9 +991,10 @@ function toggleFullscreen(){
 }
 function closeDataModal(){const m=document.getElementById('data-modal');if(m)m.style.display='none';}
 function exportData(){
-  const data={favs,ratings,playCount,achievements,totalPlayTime,settings:{pk:ST.get('pk')||'`',sfx:ST.get('sfx')||'false',theme:ST.get('theme'),bgAnim:ST.get('bgAnim'),trailEnabled:ST.get('trailEnabled'),trailType:ST.get('trailType'),trailHue:ST.get('trailHue'),trailSat:ST.get('trailSat'),trailLit:ST.get('trailLit'),fc:ST.get('fc'),fh:ST.get('fh')}};
+  const data={version:2,favs,ratings,playCount,achievements,totalPlayTime,settings:{pk:ST.get('pk')||'`',panicUrl:ST.get('panicUrl')||'https://www.google.com',sfx:ST.get('sfx')||'false',theme:ST.get('theme'),customPrimary:ST.get('customPrimary'),customAccent:ST.get('customAccent'),bgAnim:ST.get('bgAnim'),bgOpacity:ST.get('bgOpacity'),hasBg:ST.get('hasBg'),bgPhoto:ST.get('bgPhoto'),trailEnabled:ST.get('trailEnabled'),trailType:ST.get('trailType'),trailHue:ST.get('trailHue'),trailSat:ST.get('trailSat'),trailLit:ST.get('trailLit'),fc:ST.get('fc'),fh:ST.get('fh'),cloakPreset:ST.get('cloakPreset'),cloakTitle:ST.get('cloakTitle'),cloakUrl:ST.get('cloakUrl'),cloakIcon:ST.get('cloakIcon')}};
   const txt=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-  navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>showErrorToast('Data copied')).catch(()=>prompt('Copy this code:',txt));
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(()=>showErrorToast('Settings code copied')).catch(()=>prompt('Copy this settings code:',txt));
+  else prompt('Copy this settings code:',txt);
 }
 function importData(){
   const box=document.getElementById('import-data');
@@ -1001,6 +1042,7 @@ function loadSettings(){
   if(ct)ct.value=ST.get('cloakTitle')||'Google Classroom';
   if(cu)cu.value=ST.get('cloakUrl')||'https://classroom.google.com/';
   if(ci)ci.value=ST.get('cloakIcon')||'https://ssl.gstatic.com/classroom/favicon.png';
+  updateUpdateBadges();
 }
 function switchTab(tab,btn){playSound('click');document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+tab).classList.add('active');}
 function initFeatureExtras(){
@@ -1065,6 +1107,22 @@ function showHubSettings(){
   if(side)side.classList.add('closed');
   showErrorToast('Check Settings for cloak, panic key, and themes');
 }
+function openPanicSetup(){
+  showHubSettings();
+  switchTab('main',document.querySelector(".tab-btn[onclick*='main']")||document.querySelector('.tab-btn'));
+  setTimeout(()=>document.getElementById('panic-key')?.focus(),120);
+}
+function openCloakSetup(){
+  showHubSettings();
+  switchTab('customization',document.querySelector(".tab-btn[onclick*='customization']")||document.querySelectorAll('.tab-btn')[1]);
+  setTimeout(()=>document.getElementById('cloak-title')?.focus(),120);
+}
+function resetHubSettings(){
+  if(!confirm('Reset theme, panic key, cloak, trail, and background settings?'))return;
+  ['pk','panicUrl','theme','customPrimary','customAccent','bgAnim','bgOpacity','hasBg','bgPhoto','trailEnabled','trailType','trailHue','trailSat','trailLit','fc','fh','cloakPreset','cloakTitle','cloakUrl','cloakIcon','updatesSeen'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
+  showErrorToast('Settings reset');
+  setTimeout(()=>location.reload(),450);
+}
 function showSettingsReminder(){
   if(ST.get('settingsReminderSeen')==='yes')return;
   ST.set('settingsReminderSeen','yes');
@@ -1073,13 +1131,23 @@ function showSettingsReminder(){
   m.innerHTML='<div class="settings-reminder-card"><h2>⚙️ Check Settings</h2><p>New cloak, panic key, theme, and quick menu options are in Settings.</p><div class="settings-reminder-actions"><button class="sap" style="width:auto;padding:12px 18px" onclick="document.querySelector(&quot;.settings-reminder&quot;).remove();showHubSettings()">Open Settings</button><button class="sap" style="width:auto;padding:12px 18px;background:rgba(255,255,255,.06)" onclick="document.querySelector(&quot;.settings-reminder&quot;).remove()">Later</button></div></div>';
   document.body.appendChild(m);
 }
+const UPDATE_VERSION='2026-04-30-feature-pack';
+function updateUpdateBadges(){
+  const seen=ST.get('updatesSeen')===UPDATE_VERSION;
+  document.querySelectorAll('.update-badge').forEach(b=>b.classList.toggle('hidden',seen));
+}
+function markUpdatesSeen(){
+  ST.set('updatesSeen',UPDATE_VERSION);
+  updateUpdateBadges();
+}
 function openHubUpdates(){
+  markUpdatesSeen();
   let modal=document.getElementById('updates-modal');
   if(!modal){
     modal=document.createElement('div');
     modal.id='updates-modal';
     modal.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:22px';
-    modal.innerHTML=`<div style="width:min(720px,100%);max-height:86vh;overflow:auto;background:rgba(10,25,47,.96);border:1px solid rgba(100,255,218,.28);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.55);padding:28px;color:#e6f1ff"><div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px"><h2 style="color:#64ffda;margin:0">📢 Hammerhead Hub Updates</h2><button class="sap" style="width:auto;margin:0;background:var(--danger)" onclick="document.getElementById('updates-modal').style.display='none'">✕</button></div><div style="color:#64ffda;font-weight:800;margin:18px 0 8px">Latest updates</div><ul style="padding-left:22px;line-height:1.9"><li>🎨 The intro now follows your saved colors while keeping the darker underwater look.</li><li>🖥️ The intro color fills the whole screen more evenly.</li><li>🔧 The hub startup was cleaned up so it loads more smoothly.</li><li>🎭 Imposter Game is back on the game homepage.</li></ul><div style="color:#64ffda;font-weight:800;margin:22px 0 8px">Earlier updates</div><ul style="padding-left:22px;line-height:1.9"><li>⚡ Panic key now saves both the key and the panic site URL.</li><li>🕶️ Cloak presets can rename the tab to Classroom, Docs, or Drive.</li><li>🎨 Custom theme saver lets you save your own main colors.</li><li>✨ The intro has a cleaner animated start.</li><li>🛡️ Extra code protection blocks more shortcuts and copying.</li><li>🎮 Imposter Game opens through the hub.</li><li>🎬 Media opens more smoothly from the hub.</li></ul></div>`;
+    modal.innerHTML=`<div style="width:min(760px,100%);max-height:86vh;overflow:auto;background:rgba(10,25,47,.96);border:1px solid rgba(100,255,218,.28);border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.55);padding:28px;color:#e6f1ff"><div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;position:sticky;top:-28px;background:rgba(10,25,47,.98);padding:0 0 12px;z-index:2"><h2 style="color:#64ffda;margin:0">📢 Hammerhead Hub Updates</h2><button class="sap" style="width:auto;margin:0;background:var(--danger)" onclick="document.getElementById('updates-modal').style.display='none'">✕</button></div><div style="color:#64ffda;font-weight:800;margin:18px 0 8px">Latest updates <span class="update-tag">New</span></div><ul style="padding-left:22px;line-height:1.75"><li><span class="update-date">Apr 30, 2026</span>📢 Updates now have dates, NEW tags, and cleaner scroll history.</li><li><span class="update-date">Apr 30, 2026</span>👀 Theme presets can preview before you click.</li><li><span class="update-date">Apr 30, 2026</span>⚡ Quick actions were added for Settings, Panic, Cloak, Import/export, and Updates.</li><li><span class="update-date">Apr 30, 2026</span>💡 Loading tips now show during the intro.</li><li><span class="update-date">Apr 30, 2026</span>♻️ Reset Settings was added.</li></ul><div style="color:#64ffda;font-weight:800;margin:22px 0 8px">Earlier updates</div><ul style="padding-left:22px;line-height:1.75"><li><span class="update-date">Apr 30, 2026</span>🔴 Updates show a NEW badge until they are opened.</li><li><span class="update-date">Apr 30, 2026</span>🎨 New theme presets were added: Deep Ocean, Neon Shark, Midnight, School Mode, and Purple Glow.</li><li><span class="update-date">Apr 30, 2026</span>⚡ Panic key presets make it faster to switch to Google, Classroom, Docs, or Drive.</li><li><span class="update-date">Apr 30, 2026</span>💾 Settings import/export saves more of your setup.</li><li><span class="update-date">Apr 30, 2026</span>🎨 The intro follows your saved colors while keeping the darker underwater look.</li><li><span class="update-date">Apr 30, 2026</span>🖥️ The intro color fills the whole screen more evenly.</li><li><span class="update-date">Apr 30, 2026</span>🔧 The hub startup was cleaned up so it loads more smoothly.</li><li><span class="update-date">Apr 30, 2026</span>🎭 Imposter Game is back on the game homepage.</li><li><span class="update-date">Apr 30, 2026</span>⚡ Panic key saves both the key and the panic site URL.</li><li><span class="update-date">Apr 30, 2026</span>🕶️ Cloak presets can rename the tab to Classroom, Docs, or Drive.</li><li><span class="update-date">Apr 30, 2026</span>🎨 Custom theme saver lets you save your own main colors.</li><li><span class="update-date">Apr 30, 2026</span>✨ The intro has a cleaner animated start.</li><li><span class="update-date">Apr 30, 2026</span>🛡️ Extra code protection blocks more shortcuts and copying.</li><li><span class="update-date">Apr 30, 2026</span>🎮 Imposter Game opens through the hub.</li><li><span class="update-date">Apr 30, 2026</span>🎬 Media opens more smoothly from the hub.</li></ul></div>`;
     document.body.appendChild(modal);
   }else modal.style.display='flex';
 }
@@ -1143,6 +1211,21 @@ function applyCloakPreset(type,silent){
   updateCloakTabState();
   if(!silent)showErrorToast(type==='normal'?'Cloak reset':'Cloak preset saved');
 }
+let themePreviewing=false;
+function previewTheme(t){
+  if(!THEMES[t])return;
+  themePreviewing=true;
+  const th=THEMES[t],r=document.documentElement;
+  r.style.setProperty('--primary',th.p);r.style.setProperty('--accent',th.a);r.style.setProperty('--accent-dark',th.a2);
+  document.body.style.background=th.bg;document.body.style.backgroundSize='400% 400%';
+  syncLandingBackground();
+}
+function endThemePreview(){
+  if(!themePreviewing)return;
+  themePreviewing=false;
+  const saved=ST.get('theme');
+  if(saved&&THEMES[saved])applyTheme(saved);
+}
 function saveCustomTheme(){
   const p=(document.getElementById('custom-primary')?.value||'').trim();
   const a=(document.getElementById('custom-accent')?.value||'').trim();
@@ -1160,14 +1243,16 @@ function applySavedCustomTheme(){
 }
 function initAnimatedIntro(){
   const introPhrases=['diving in','diving in','diving in','loading the depths','swimming deeper','making waves','entering the hub','surfacing soon','powering up','deep sea mode'];
+  const loadingTips=['Use the panic key if someone walks by.','Try cloak mode in settings.','Save your theme so it stays next time.','Open updates to clear the NEW badge.','Use import/export to move your setup.','Use the quick menu to jump around faster.','Try a darker theme for the best underwater look.','Set a panic site before you start playing.','Cloak mode changes the tab when you click away.','Export your settings before big changes.','Use fullscreen for a cleaner game view.','Change your trail color in Customize.','Try the Imposter Game from the game homepage.','If a game gets blocked, use the New Tab button.','Save a custom theme so it loads next time.','Check Updates to see what changed.','Use Google Classroom or Docs as cloak presets.','Turn off sound effects if you want it quieter.','Upload a background photo for a custom look.','Use reset settings if something feels broken.'];
   const introPhrase=introPhrases[Math.floor(Math.random()*introPhrases.length)];
+  const introTip=loadingTips[Math.floor(Math.random()*loadingTips.length)];
   const rootStyles=getComputedStyle(document.documentElement);
   const introPrimary=(rootStyles.getPropertyValue('--primary')||ST.get('customPrimary')||'#64ffda').trim();
   const introAccent=(rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#00b4d8').trim();
   const introDeep=(rootStyles.getPropertyValue('--accent-dark')||rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#0077b6').trim();
   const intro=document.createElement('div');
   intro.style.cssText=`position:fixed;inset:0;z-index:100020;overflow:hidden;background:linear-gradient(180deg,color-mix(in srgb, ${introPrimary} 55%, #001233 45%) 0%,color-mix(in srgb, ${introAccent} 60%, #001233 40%) 28%,color-mix(in srgb, ${introDeep} 55%, #001233 45%) 58%,#023e8a 82%,#001233 100%);display:flex;align-items:center;justify-content:center;color:#e6f1ff;font-family:Segoe UI,system-ui,sans-serif;transition:opacity .9s ease;pointer-events:none`;
-  intro.innerHTML='<div style="position:absolute;inset:-25%;background:radial-gradient(circle at 50% 12%,rgba(202,240,248,.5),transparent 16%),radial-gradient(circle at 25% 42%,rgba(72,202,228,.22),transparent 18%),radial-gradient(circle at 78% 54%,rgba(0,119,182,.28),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,29,61,.45) 58%,rgba(0,8,20,.72));animation:waterRushBg 1.45s cubic-bezier(.16,1,.3,1) forwards"></div><div style="position:absolute;inset:0;background:linear-gradient(100deg,transparent 0 20%,rgba(202,240,248,.1) 28%,transparent 38% 58%,rgba(144,224,239,.08) 66%,transparent 76%),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);filter:blur(5px);opacity:.58;animation:waterStreaks .55s linear infinite"></div><div style="position:absolute;top:-22%;left:12%;width:76%;height:86%;background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(202,240,248,.18) 16%,transparent 34%),linear-gradient(78deg,transparent 0 26%,rgba(255,255,255,.2) 42%,transparent 58%);filter:blur(18px);opacity:.72;transform:skewX(-10deg);mix-blend-mode:screen"></div><div style="position:absolute;inset:0;background:radial-gradient(circle at 15% 78%,rgba(202,240,248,.22) 0 1.5px,transparent 2.5px),radial-gradient(circle at 84% 64%,rgba(202,240,248,.18) 0 2px,transparent 3px),radial-gradient(circle at 67% 22%,rgba(255,255,255,.16) 0 1.5px,transparent 2.5px),radial-gradient(circle at 31% 31%,rgba(255,255,255,.13) 0 2px,transparent 3px);background-size:92px 92px,130px 130px,74px 74px,112px 112px;opacity:.7;animation:waterStreaks 1.2s linear infinite"></div><div style="position:absolute;left:-10%;right:-10%;bottom:-10%;height:42%;background:radial-gradient(ellipse at 50% 0%,rgba(144,224,239,.18),transparent 52%),linear-gradient(180deg,rgba(0,119,182,.14),rgba(0,18,51,.62));filter:blur(10px);animation:waterWave 1.2s ease-in-out infinite alternate"></div><div id="intro-bubbles" style="position:absolute;inset:0;overflow:hidden"></div><div style="position:relative;text-align:center;transform:translateY(30px);animation:diveTitle 1.25s cubic-bezier(.16,1,.3,1) forwards"><div style="font-size:clamp(3.2rem,10vw,6.6rem);font-weight:900;letter-spacing:-3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-dark),var(--primary));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 24px 40px rgba(0,0,0,.46));animation:textGradient 5s ease infinite">🔨 Hammerhead Hub</div><div style="margin-top:10px;color:#caf0f8;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.4)">'+introPhrase+'</div></div>';
+  intro.innerHTML='<div style="position:absolute;inset:-25%;background:radial-gradient(circle at 50% 12%,rgba(202,240,248,.5),transparent 16%),radial-gradient(circle at 25% 42%,rgba(72,202,228,.22),transparent 18%),radial-gradient(circle at 78% 54%,rgba(0,119,182,.28),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,29,61,.45) 58%,rgba(0,8,20,.72));animation:waterRushBg 1.45s cubic-bezier(.16,1,.3,1) forwards"></div><div style="position:absolute;inset:0;background:linear-gradient(100deg,transparent 0 20%,rgba(202,240,248,.1) 28%,transparent 38% 58%,rgba(144,224,239,.08) 66%,transparent 76%),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);filter:blur(5px);opacity:.58;animation:waterStreaks .55s linear infinite"></div><div style="position:absolute;top:-22%;left:12%;width:76%;height:86%;background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(202,240,248,.18) 16%,transparent 34%),linear-gradient(78deg,transparent 0 26%,rgba(255,255,255,.2) 42%,transparent 58%);filter:blur(18px);opacity:.72;transform:skewX(-10deg);mix-blend-mode:screen"></div><div style="position:absolute;inset:0;background:radial-gradient(circle at 15% 78%,rgba(202,240,248,.22) 0 1.5px,transparent 2.5px),radial-gradient(circle at 84% 64%,rgba(202,240,248,.18) 0 2px,transparent 3px),radial-gradient(circle at 67% 22%,rgba(255,255,255,.16) 0 1.5px,transparent 2.5px),radial-gradient(circle at 31% 31%,rgba(255,255,255,.13) 0 2px,transparent 3px);background-size:92px 92px,130px 130px,74px 74px,112px 112px;opacity:.7;animation:waterStreaks 1.2s linear infinite"></div><div style="position:absolute;left:-10%;right:-10%;bottom:-10%;height:42%;background:radial-gradient(ellipse at 50% 0%,rgba(144,224,239,.18),transparent 52%),linear-gradient(180deg,rgba(0,119,182,.14),rgba(0,18,51,.62));filter:blur(10px);animation:waterWave 1.2s ease-in-out infinite alternate"></div><div id="intro-bubbles" style="position:absolute;inset:0;overflow:hidden"></div><div style="position:relative;text-align:center;transform:translateY(30px);animation:diveTitle 1.25s cubic-bezier(.16,1,.3,1) forwards"><div style="font-size:clamp(3.2rem,10vw,6.6rem);font-weight:900;letter-spacing:-3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-dark),var(--primary));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 24px 40px rgba(0,0,0,.46));animation:textGradient 5s ease infinite">🔨 Hammerhead Hub</div><div style="margin-top:10px;color:#caf0f8;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.4)">'+introPhrase+'</div><div style="margin-top:8px;color:rgba(230,241,255,.72);font-size:.72rem;font-weight:650;text-shadow:0 4px 18px rgba(0,0,0,.45)">💡 '+introTip+'</div></div>';
   const style=document.createElement('style');
   style.textContent='@keyframes waterRushBg{0%{transform:scale(2.1) translateY(55%);filter:blur(16px)}100%{transform:scale(1) translateY(0);filter:blur(0)}}@keyframes waterStreaks{from{transform:translateY(110px) skewY(-4deg)}to{transform:translateY(-110px) skewY(-4deg)}}@keyframes waterWave{from{transform:translateY(15px) scaleX(1.08)}to{transform:translateY(-15px) scaleX(1)}}@keyframes diveTitle{0%{opacity:0;transform:translateY(150px) scale(.78)}50%{opacity:1;transform:translateY(-24px) scale(1.07)}100%{opacity:1;transform:translateY(0) scale(1)}}@keyframes introBubbleUp{0%{transform:translateY(115vh) translateX(0) scale(.22);opacity:0}8%{opacity:.95}65%{opacity:.75}100%{transform:translateY(-24vh) translateX(var(--drift)) scale(1.9);opacity:0}}@keyframes introTinyBubble{0%{transform:translateY(105vh) translateX(0) scale(.1);opacity:0}10%{opacity:.85}100%{transform:translateY(-18vh) translateX(var(--drift)) scale(1.1);opacity:0}}';
   document.head.appendChild(style);
@@ -1209,14 +1294,15 @@ function initHomepageTest(){
   document.body.appendChild(s);
 }
 function enterHub(){playSound('open');document.getElementById('lp').style.display='none';document.getElementById('main-content').style.display='block';trailEnabled=true;ST.set('trailEnabled','true');lastTrailX=-9999;lastTrailY=-9999;if(fishCanvas)fishCanvas.style.display='block';if(trailType==='fish'&&trailEnabled)initFish();initHomepageTest();ensureHubSidebar();updateHubSidebarVisibility();setTimeout(showSettingsReminder,650);}
-function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';initAnimatedIntro();lastTrailX=-9999;lastTrailY=-9999;if(trailType==='fish'&&trailEnabled){if(!fishCanvas)initFish();else fishCanvas.style.display='block';}else if(fishCanvas)fishCanvas.style.display='none';updateHubSidebarVisibility();window.scrollTo({top:0,behavior:'smooth'});}
+function goMainHomepage(){playSound('click');closeGame();document.getElementById('sp').classList.remove('open');document.getElementById('main-content').style.display='none';document.getElementById('lp').style.display='flex';lastTrailX=-9999;lastTrailY=-9999;if(trailType==='fish'&&trailEnabled){if(!fishCanvas)initFish();else fishCanvas.style.display='block';}else if(fishCanvas)fishCanvas.style.display='none';updateHubSidebarVisibility();window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>initAnimatedIntro(),60);}
 
 
 /* CLOCK */
 function updateClock(){const now=new Date();document.getElementById('clock-time').textContent=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});document.getElementById('clock-date').textContent=now.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});}
 function startPlayTimer(){setInterval(()=>{totalPlayTime++;if(totalPlayTime%60===0)ST.set('playTime',totalPlayTime);const h=Math.floor(totalPlayTime/3600),m=Math.floor((totalPlayTime%3600)/60);document.getElementById('timer-display').textContent=`${h}:${m.toString().padStart(2,'0')}`;document.getElementById('total-time').textContent=`Total: ${h}h ${m}m`;if(totalPlayTime===3600)checkAchievements();},1000);}
 function openUpdates(){
-  alert("Latest updates:\n• The intro now follows your saved colors while keeping the darker underwater look\n• The intro color fills the whole screen more evenly\n• The hub startup was cleaned up so it loads more smoothly\n• Imposter Game is back on the game homepage\n\nEarlier updates:\n• Panic key now saves and works, and fullscreen, sound effects, and data tools work better\n• Your colors, background, and mouse trail choices now stay saved\n• The Cloak button can open the hub in a blank tab\n• The hub can tell when games are having connection trouble\n• The offline screen now has retry, Media, and Suggestions buttons\n• Media opens more smoothly from the hub");
+  markUpdatesSeen();
+  alert("Latest updates:\n• Apr 30, 2026 — Updates now have dates, NEW tags, and cleaner scroll history\n• Apr 30, 2026 — Theme presets can preview before you click\n• Apr 30, 2026 — Quick actions were added for Settings, Panic, Cloak, Import/export, and Updates\n• Apr 30, 2026 — Loading tips now show during the intro\n• Apr 30, 2026 — Reset Settings was added\n\nEarlier updates:\n• New update badge shows when there are fresh changes\n• Added quick theme presets: Deep Ocean, Neon Shark, Midnight, School Mode, and Purple Glow\n• Added panic key presets for Google, Classroom, Docs, and Drive\n• Settings import/export now saves more of your setup\n• The intro now follows your saved colors while keeping the darker underwater look\n• The intro color fills the whole screen more evenly\n• The hub startup was cleaned up so it loads more smoothly\n• Imposter Game is back on the game homepage\n• Panic key now saves and works, and fullscreen, sound effects, and data tools work better\n• Your colors, background, and mouse trail choices now stay saved\n• The Cloak button can open the hub in a blank tab\n• The hub can tell when games are having connection trouble\n• The offline screen now has retry, Media, and Suggestions buttons\n• Media opens more smoothly from the hub");
   const w=window.open('about:blank','_blank');
   if(!w)return;
   w.document.write(`<!DOCTYPE html><html><head><title>Updates</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:linear-gradient(-45deg,#0a192f,#112240,#0d47a1,#1565c0);background-size:400% 400%;animation:bg 15s ease infinite;min-height:100vh;font-family:-apple-system,sans-serif;color:#e6f1ff}.shell{min-height:100vh;display:flex;flex-direction:column}.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:rgba(10,25,47,.96);border-bottom:1px solid rgba(100,255,218,.18)}.ttl{font-weight:800;color:#64ffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acts{display:flex;gap:10px;align-items:center}.bar button{border:none;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.back{background:linear-gradient(135deg,#64ffda,#00b4d8);color:#0a192f}.close{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(100,255,218,.18)}.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}@keyframes bg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}.c{background:rgba(10,25,47,.85);border:2px solid #1e3a5f;border-radius:20px;padding:40px;max-width:680px;width:100%}h1{background:linear-gradient(90deg,#64ffda,#00b4d8,#0077b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:32px;margin-bottom:20px}.h{color:#64ffda;font-size:15px;font-weight:bold;margin:16px 0 8px;border-bottom:1px solid #1e3a5f;padding-bottom:4px}ul{list-style:none}li{color:#ccd6f6;font-size:14px;padding:4px 0 4px 18px;position:relative}li::before{content:"\\2726";position:absolute;left:0;color:#64ffda;font-size:10px;top:6px}</style></head><body><div class="shell"><div class="bar"><button class="back" onclick="if(window.opener&&!window.opener.closed){window.opener.focus();window.close()}else{const w=window.open('about:blank','_blank');if(w){w.document.open();w.document.write(localStorage.getItem('hammerheadHubHTML')||'');w.document.close();}}">← Back to Landing</button><div class="ttl">📢 Updates</div><div class="acts"><button class="close" onclick="window.close()">✕ Close</button></div></div><div class="wrap"><div class="c"><h1>🔨 Hammerhead Hub Updates</h1><div class="h">Latest updates</div><ul><li>⚙️ Panic key now saves and works, and fullscreen, sound effects, and data tools work better</li><li>💾 Your colors, background, and mouse trail choices now stay saved</li><li>🕶️ The Cloak button can open the hub in a blank tab</li><li>🛠️ The hub can tell when games are having connection trouble</li><li>🔧 The offline screen now has retry, Media, and Suggestions buttons</li><li>🎮 The games area has been cleaned up so it is easier to open and use</li><li>🎬 Media opens more smoothly from the hub</li><li>🎨 The landing page better matches your selected background style</li></ul></div></div></div></body></html>`);
@@ -1520,6 +1606,29 @@ const cw=document.getElementById('clock-widget');
 cw.addEventListener('mousedown',e=>{iX=e.clientX-xOff;iY=e.clientY-yOff;if(e.target===cw||e.target.parentNode===cw){isDragging=true;cw.style.cursor='grabbing';}});
 document.addEventListener('mouseup',()=>{iX=cX;iY=cY;isDragging=false;cw.style.cursor='move';});
 document.addEventListener('mousemove',e=>{if(!isDragging)return;e.preventDefault();cX=e.clientX-iX;cY=e.clientY-iY;xOff=cX;yOff=cY;cw.style.transform=`translate(${cX}px,${cY}px)`;});
+const __hammerheadOriginalOpenLandingInAboutBlank=typeof openLandingInAboutBlank==='function'?openLandingInAboutBlank:null;
+function openLandingInAboutBlank(){
+  playSound('click');
+  let html='';
+  try{html=localStorage.getItem('hammerheadHubHTML')||'<!DOCTYPE html>'+document.documentElement.outerHTML;}catch(e){html='<!DOCTYPE html>'+document.documentElement.outerHTML;}
+  html=html.replace('<body>','<body class="cloaked-window">');
+  const w=window.open('about:blank','_blank');
+  if(!w){showErrorToast('Allow popups to open cloak');return;}
+  try{
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+  }catch(e){}
+  setTimeout(()=>{
+    try{window.open('','_self');window.close();}catch(e){}
+    setTimeout(()=>{
+      if(!window.closed){
+        try{location.replace('about:blank');}catch(err){document.documentElement.innerHTML='';}
+      }
+    },120);
+  },250);
+}
 </script>
 </body>
 </html>
