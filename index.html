@@ -306,6 +306,7 @@
 
       <button class="hub-sidebar-item" onclick="openLandingInAboutBlank()"><span class="ico">🕶️</span><span>Cloak Tab<small>Open about:blank copy</small></span></button>
       <button class="hub-sidebar-item" onclick="openMedia1()"><span class="ico">🎬</span><span>Media<small>Open cinema page</small></span></button>
+      <button class="hub-sidebar-item" onclick="openHammerheadProxy()"><span class="ico">🌐</span><span>Proxy<small>Open Hammerhead browser</small></span></button>
       <button class="hub-sidebar-item" onclick="openHubUpdates()"><span class="ico">📢</span><span>Updates <span class="update-badge">NEW</span><small>See what changed</small></span></button>
       <button class="hub-sidebar-item" onclick="openSuggestions()"><span class="ico">📋</span><span>Suggestions<small>Request changes</small></span></button>
       <button class="hub-sidebar-item" onclick="toggleFullscreen()"><span class="ico">⛶</span><span>Fullscreen<small>Toggle screen mode</small></span></button>
@@ -344,6 +345,7 @@
           <button class="b1" onclick="enterHub()">Continue →</button>
           <button class="b2" onclick="toggleFullscreen()">⛶ Fullscreen</button>
           <button class="b3" onclick="openMedia1()">🎬 Media</button>
+          <button class="b2" onclick="openHammerheadProxy()">🌐 Proxy</button>
         </div>
         <div class="brs">
           <button class="bs b6" onclick="openHubUpdates()">📢 Updates <span class="update-badge">NEW</span></button>
@@ -542,6 +544,7 @@
 
         <button class="setb" onclick="goMainHomepage()">🏠 Home</button>
         <button class="setb" onclick="document.getElementById('sp').classList.add('open')">⚙️ Settings</button>
+        <button class="setb" onclick="openHammerheadProxy()">🌐 Hammerhead Proxy</button>
         <button class="setb" onclick="openDirectGameTab('https://csclub.uwaterloo.ca/~s23adhik/myPosts/imposter.html')">🎭 Imposter Game</button>
 
 
@@ -1046,8 +1049,14 @@ function initFeatureExtras(){
   if(ct)ct.value=ST.get('cloakTitle')||'Google Classroom';
   if(cu)cu.value=ST.get('cloakUrl')||'https://classroom.google.com/';
   if(ci)ci.value=ST.get('cloakIcon')||'https://ssl.gstatic.com/classroom/favicon.png';
-  initAnimatedIntro();
+  runStartupIntro();
 }
+function runStartupIntro(){
+  const start=()=>{try{document.querySelectorAll('.hammerhead-start-intro').forEach(e=>e.remove());initAnimatedIntro();}catch(e){console.warn('Intro failed, retrying once',e);setTimeout(()=>{try{initAnimatedIntro();}catch(err){}},400);}};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,80),{once:true});
+  else setTimeout(start,80);
+}
+window.addEventListener('pageshow',e=>{if(e.persisted)setTimeout(runStartupIntro,120);});
 
 function ensureHubSidebar(){
   if(!document.body)return;
@@ -1098,6 +1107,21 @@ function showHubSettings(){
   const side=document.getElementById('hub-sidebar');
   if(side)side.classList.add('closed');
   showErrorToast('Check Settings for cloak, panic key, and themes');
+}
+function openHammerheadProxy(){
+  playSound('click');
+  const proxyUrl='proxy/index.html';
+  const w=window.open('about:blank','_blank');
+  if(!w){showErrorToast('Allow popups to open proxy');return;}
+  try{
+    w.document.open();
+    w.document.write('<!DOCTYPE html><html><head><title>Hammerhead Proxy</title><link rel="icon" href="'+HAMMER_ICON+'"><style>body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#001233,#003566,#0077b6);color:#e6f1ff;font-family:Segoe UI,system-ui,sans-serif;text-align:center}h1{font-size:2.4rem;margin:0 0 10px;color:#64ffda}.box{padding:32px;border:1px solid rgba(100,255,218,.35);border-radius:24px;background:rgba(2,6,23,.72);box-shadow:0 30px 80px rgba(0,0,0,.5)}p{color:#b8c7dd}</style></head><body><div class="box"><h1>🔨 Hammerhead Proxy</h1><p>Opening the Hammerhead browser...</p></div></body></html>');
+    w.document.close();
+    setTimeout(()=>{try{w.location.href=proxyUrl;}catch(e){}},250);
+  }catch(e){
+    try{w.location.href=proxyUrl;}catch(err){}
+  }
+  showErrorToast('Opening Hammerhead Proxy');
 }
 function openPanicSetup(){
   showHubSettings();
@@ -1264,7 +1288,9 @@ function initAnimatedIntro(){
   const introPrimary=(rootStyles.getPropertyValue('--primary')||ST.get('customPrimary')||'#64ffda').trim();
   const introAccent=(rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#00b4d8').trim();
   const introDeep=(rootStyles.getPropertyValue('--accent-dark')||rootStyles.getPropertyValue('--accent')||ST.get('customAccent')||'#0077b6').trim();
+  document.querySelectorAll('.hammerhead-start-intro').forEach(e=>e.remove());
   const intro=document.createElement('div');
+  intro.className='hammerhead-start-intro';
   intro.style.cssText=`position:fixed;inset:0;z-index:100020;overflow:hidden;background:linear-gradient(180deg,color-mix(in srgb, ${introPrimary} 55%, #001233 45%) 0%,color-mix(in srgb, ${introAccent} 60%, #001233 40%) 28%,color-mix(in srgb, ${introDeep} 55%, #001233 45%) 58%,#023e8a 82%,#001233 100%);display:flex;align-items:center;justify-content:center;color:#e6f1ff;font-family:Segoe UI,system-ui,sans-serif;transition:opacity .9s ease;pointer-events:none`;
   intro.innerHTML='<div style="position:absolute;inset:-25%;background:radial-gradient(circle at 50% 12%,rgba(202,240,248,.5),transparent 16%),radial-gradient(circle at 25% 42%,rgba(72,202,228,.22),transparent 18%),radial-gradient(circle at 78% 54%,rgba(0,119,182,.28),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,29,61,.45) 58%,rgba(0,8,20,.72));animation:waterRushBg 1.45s cubic-bezier(.16,1,.3,1) forwards"></div><div style="position:absolute;inset:0;background:linear-gradient(100deg,transparent 0 20%,rgba(202,240,248,.1) 28%,transparent 38% 58%,rgba(144,224,239,.08) 66%,transparent 76%),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 2px,transparent 2px 16px);filter:blur(5px);opacity:.58;animation:waterStreaks .55s linear infinite"></div><div style="position:absolute;top:-22%;left:12%;width:76%;height:86%;background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(202,240,248,.18) 16%,transparent 34%),linear-gradient(78deg,transparent 0 26%,rgba(255,255,255,.2) 42%,transparent 58%);filter:blur(18px);opacity:.72;transform:skewX(-10deg);mix-blend-mode:screen"></div><div style="position:absolute;inset:0;background:radial-gradient(circle at 15% 78%,rgba(202,240,248,.22) 0 1.5px,transparent 2.5px),radial-gradient(circle at 84% 64%,rgba(202,240,248,.18) 0 2px,transparent 3px),radial-gradient(circle at 67% 22%,rgba(255,255,255,.16) 0 1.5px,transparent 2.5px),radial-gradient(circle at 31% 31%,rgba(255,255,255,.13) 0 2px,transparent 3px);background-size:92px 92px,130px 130px,74px 74px,112px 112px;opacity:.7;animation:waterStreaks 1.2s linear infinite"></div><div style="position:absolute;left:-10%;right:-10%;bottom:-10%;height:42%;background:radial-gradient(ellipse at 50% 0%,rgba(144,224,239,.18),transparent 52%),linear-gradient(180deg,rgba(0,119,182,.14),rgba(0,18,51,.62));filter:blur(10px);animation:waterWave 1.2s ease-in-out infinite alternate"></div><div id="intro-bubbles" style="position:absolute;inset:0;overflow:hidden"></div><div style="position:relative;text-align:center;transform:translateY(30px);animation:diveTitle 1.25s cubic-bezier(.16,1,.3,1) forwards"><div style="font-size:clamp(3.2rem,10vw,6.6rem);font-weight:900;letter-spacing:-3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--accent-dark),var(--primary));background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 24px 40px rgba(0,0,0,.46));animation:textGradient 5s ease infinite">🔨 Hammerhead Hub</div><div style="margin-top:10px;color:#caf0f8;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 4px 18px rgba(0,0,0,.4)">'+introPhrase+'</div><div style="margin-top:8px;color:rgba(230,241,255,.72);font-size:.72rem;font-weight:650;text-shadow:0 4px 18px rgba(0,0,0,.45)">💡 '+introTip+'</div></div>';
   const style=document.createElement('style');
