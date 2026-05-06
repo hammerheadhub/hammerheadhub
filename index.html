@@ -188,6 +188,16 @@
     #playtimer.visible{opacity:.85}
     #visitor-counter{position:fixed;bottom:24px;left:24px;background:rgba(10,25,47,.92);border:1px solid var(--border);border-radius:50px;padding:10px 18px;font-size:.82rem;color:var(--primary);z-index:100010;backdrop-filter:blur(20px);font-weight:800;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:8px;pointer-events:none}
     #visitor-counter small{color:var(--text-secondary);font-weight:700}
+    #landing-choice-modal{display:none;position:fixed;inset:0;z-index:100020;background:rgba(0,0,0,.68);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:22px}
+    #landing-choice-modal.open{display:flex}
+    .landing-choice-card{width:min(420px,94vw);background:linear-gradient(180deg,rgba(10,25,47,.98),rgba(2,6,23,.98));border:1px solid rgba(100,255,218,.32);border-radius:26px;padding:26px;box-shadow:0 30px 90px rgba(0,0,0,.68);text-align:center;color:var(--text-primary)}
+    .landing-choice-card h2{font-size:1.45rem;color:var(--primary);margin-bottom:8px;background:none;-webkit-text-fill-color:currentColor;animation:none}
+    .landing-choice-card p{color:var(--text-secondary);font-size:.95rem;margin-bottom:20px}
+    .landing-choice-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .landing-choice-actions button{padding:12px 18px;font-size:.9rem;color:#fff}
+    .landing-choice-stay{background:linear-gradient(135deg,var(--primary),var(--accent));color:var(--bg-deep)!important}
+    .landing-choice-new{background:linear-gradient(135deg,var(--accent-dark),var(--accent))}
+    .landing-choice-cancel{margin-top:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--text-secondary)!important;padding:10px 16px!important}
     .tooltip{position:fixed;background:rgba(10,25,47,.95);color:var(--text-primary);padding:12px 18px;border-radius:12px;font-size:.875rem;pointer-events:none;z-index:9999;opacity:0;transition:all .2s;max-width:280px;line-height:1.5;border:1px solid var(--border);backdrop-filter:blur(20px);box-shadow:var(--shadow-lg);transform:translateY(10px)}
     .tooltip.show{opacity:1;transform:translateY(0)}
     #ach-popup{position:fixed;top:30px;left:50%;transform:translateX(-50%) translateY(-150px);background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;padding:20px 40px;border-radius:50px;font-weight:700;box-shadow:0 20px 60px rgba(0,180,216,.4);z-index:10000;transition:transform .6s var(--ease-spring);border:2px solid rgba(255,255,255,.2);text-align:center}
@@ -299,6 +309,17 @@
     <div id="clock-widget" title="Drag to move"><div class="time" id="clock-time">12:00</div><div class="date" id="clock-date">Loading...</div></div>
     <div id="playtimer" onclick="toggleTimerVisibility()">⏱️ <span id="timer-display">0:00</span></div>
     <div id="visitor-counter"><span>👀</span><span id="visitor-count-number">Loading...</span><small>visits</small></div>
+    <div id="landing-choice-modal" onclick="if(event.target===this)closeLandingChoice()">
+      <div class="landing-choice-card">
+        <h2 id="landing-choice-title">Open this?</h2>
+        <p>Choose how you want to open it.</p>
+        <div class="landing-choice-actions">
+          <button class="landing-choice-stay" onclick="runLandingChoice(false)">Stay in this tab</button>
+          <button class="landing-choice-new" onclick="runLandingChoice(true)">Open new tab</button>
+        </div>
+        <button class="landing-choice-cancel" onclick="closeLandingChoice()">Cancel</button>
+      </div>
+    </div>
     <div id="tooltip" class="tooltip"></div>
     <button id="hub-sidebar-toggle" class="hub-sidebar-toggle" title="Open quick menu" onclick="toggleHubSidebar()">☰</button>
     <nav id="hub-sidebar" class="hub-sidebar closed">
@@ -348,14 +369,14 @@
         <h1 class="lt">🔨 Hammerhead Hub</h1>
         <p class="ls">Dive into the deep blue</p>
         <div class="br">
-          <button class="b1" onclick="enterHub()">Continue →</button>
-          <button class="b2" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-          <button class="b3" onclick="openMedia1()">🎬 Media</button>
+          <button class="b1" onclick="showLandingChoice('hub','Continue')">Continue →</button>
+          <button class="b2" onclick="showLandingChoice('fullscreen','Fullscreen')">⛶ Fullscreen</button>
+          <button class="b3" onclick="showLandingChoice('media','Media')">🎬 Media</button>
 
         </div>
         <div class="brs">
-          <button class="bs b6" onclick="openHubUpdates()">📢 Updates <span class="update-badge">NEW</span></button>
-          <button class="bs b7" onclick="openSuggestions()">📋 Suggestions</button>
+          <button class="bs b6" onclick="showLandingChoice('updates','Updates')">📢 Updates <span class="update-badge">NEW</span></button>
+          <button class="bs b7" onclick="showLandingChoice('suggestions','Suggestions')">📋 Suggestions</button>
         </div>
       </div>
     </div>
@@ -885,6 +906,49 @@ function updateFishCount(n){fishCount=parseInt(n);ST.set('fc',n);document.getEle
 function updateFishColor(hue){fishHue=parseInt(hue);ST.set('fh',hue);document.getElementById('fish-color-preview').style.background=`linear-gradient(135deg,${hslToHex(fishHue,90,80)},${hslToHex(fishHue,90,45)})`; }
 
 
+let pendingLandingChoice=null;
+function showLandingChoice(action,label){
+  pendingLandingChoice=action;
+  const modal=document.getElementById('landing-choice-modal');
+  const title=document.getElementById('landing-choice-title');
+  if(title)title.textContent='Open '+(label||'this')+'?';
+  if(modal)modal.classList.add('open');
+  playSound('click');
+}
+function closeLandingChoice(){
+  const modal=document.getElementById('landing-choice-modal');
+  if(modal)modal.classList.remove('open');
+}
+function runLandingChoice(openNewTab){
+  const action=pendingLandingChoice;
+  closeLandingChoice();
+  if(!action)return;
+  if(openNewTab){
+    openLandingActionInNewTab(action);
+    return;
+  }
+  runLandingActionHere(action);
+}
+function runLandingActionHere(action){
+  if(action==='hub')enterHub();
+  else if(action==='fullscreen')toggleFullscreen();
+  else if(action==='media')openMedia1();
+  else if(action==='updates')openHubUpdates();
+  else if(action==='suggestions')openSuggestions();
+}
+function openLandingActionInNewTab(action){
+  playSound('open');
+  if(action==='media'){openUrlInAboutBlank('https://cinemaos.tech','🎬 Media');return;}
+  if(action==='suggestions'){openSuggestions();return;}
+  if(action==='fullscreen'){openLandingInAboutBlank();showErrorToast('New tab opened. Use fullscreen there.');return;}
+  const w=window.open('about:blank','_blank');
+  if(!w){showErrorToast('Allow popups to open new tab');return;}
+  const runner=`<script>window.addEventListener('load',function(){setTimeout(function(){try{${action==='hub'?'enterHub();':action==='updates'?'openHubUpdates();':''}}catch(e){}},650);});<\/script>`;
+  const html='<!DOCTYPE html>'+document.documentElement.outerHTML.replace('</body>',runner+'</body>');
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
 function initVisitorCounter(){
   const box=document.getElementById('visitor-count-number');
   if(!box)return;
